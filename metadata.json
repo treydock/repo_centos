@@ -8,6 +8,7 @@
   "summary": "Configures the CentOS 5 or 6 Yum repository config to point to a local mirror",
   "version": "0.1.1",
   "checksums": {
+    "LICENSE": "2b42edef8fa55315f34f2370b4715ca9",
     "Modulefile": "1e06846e2fca281f4321914f02b4e221",
     "README.md": "7875e1a109220192c498c1d8a6587c25",
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
