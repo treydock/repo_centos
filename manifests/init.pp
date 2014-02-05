@@ -17,6 +17,7 @@ class repo_centos (
 
   if $::operatingsystem == 'CentOS' {
     include repo_centos::base
+    include repo_centos::updates
     class { "repo_centos::cr":
       enable_cr   => $enable_cr,
     }

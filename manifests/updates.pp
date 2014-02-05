@@ -2,7 +2,7 @@
 class repo_centos::updates inherits repo_centos::params {
 
   yumrepo { 'centos-updates':
-    baseurl  => "${url}/${urlbit}/updates/${::architecture}",
+    baseurl  => "${repourl}/${urlbit}/updates/${::architecture}",
     descr    => "${operatingsystem} ${::os_maj_version} Updates - ${::architecture}",
     enabled  => '1',
     gpgcheck => '1',

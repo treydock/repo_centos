@@ -7,7 +7,7 @@ class repo_centos::base inherits repo_centos::params {
   file { "/etc/yum.repos.d/CentOS-Media.repo": ensure => absent, }
   
   yumrepo { 'centos-base':
-    baseurl  => "${url}/${urlbit}/os/${::architecture}",
+    baseurl  => "${repourl}/${urlbit}/os/${::architecture}",
     descr    => "${operatingsystem} ${::os_maj_version} OS Base - ${::architecture}",
     enabled  => '1',
     gpgcheck => '1',

@@ -12,7 +12,7 @@ class repo_centos::cr  (
   }
 
   yumrepo { 'centos-cr':
-    baseurl  => "${url}/${urlbit}/cr/${::architecture}",
+    baseurl  => "${repourl}/${urlbit}/cr/${::architecture}",
     descr    => "${operatingsystem} ${::os_maj_version} Continuous Release - ${::architecture}",
     enabled  => "${enabled}",
     gpgcheck => '1',

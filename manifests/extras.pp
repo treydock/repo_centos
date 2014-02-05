@@ -16,7 +16,7 @@ class repo_centos::extras  (
   }
 
   yumrepo { 'centos-extras':
-    baseurl  => "${url}/${urlbit}/extras/${::architecture}",
+    baseurl  => "${repourl}/${urlbit}/extras/${::architecture}",
     descr    => "${operatingsystem} ${::os_maj_version} Extras - ${::architecture}",
     enabled  => "${enabled}",
     gpgcheck => '1',

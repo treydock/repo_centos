@@ -1,31 +1,13 @@
 {
   "name": "flakrat-repo_centos",
+  "version": "0.1.2",
+  "summary": "Configures the CentOS 5 or 6 Yum repository config to point to a local mirror",
   "author": "flakrat",
   "description": "Based off of http://github.com/stahnma/puppet-module-puppetlabs_yum\n\nManage the repository definitions on CentOS clients",
-  "license": "Apache License, Version 2.0",
-  "project_page": "https://github.com/flakrat/repo_centos",
+  "dependencies": [],
+  "types": [],
+  "checksums": {},
   "source": "https://github.com/flakrat/repo_centos.git",
-  "summary": "Configures the CentOS 5 or 6 Yum repository config to point to a local mirror",
-  "version": "0.1.1",
-  "checksums": {
-    "LICENSE": "2b42edef8fa55315f34f2370b4715ca9",
-    "Modulefile": "c58bffb756ed64e6c8711fab87c10912",
-    "README.md": "7875e1a109220192c498c1d8a6587c25",
-    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
-    "files/RPM-GPG-KEY-CentOS-5": "d817a3fd309c8508cd768803632c47ae",
-    "files/RPM-GPG-KEY-CentOS-6": "40f512ad27d39d6fc8ec054ebf6a8152",
-    "lib/facter/os_maj_version.rb": "a1dd18a64d87e0b349f17a3c9b95dc0b",
-    "manifests/base.pp": "804cbf2e6ad1e8e5e7e383dddaee158c",
-    "manifests/cr.pp": "ded5a9a40b2a5e8fd009c66d6f428be2",
-    "manifests/extras.pp": "c89fc032d07cc2470aba783caf3f3231",
-    "manifests/init.pp": "835f4ba4eb89859936fb5d0357ced75b",
-    "manifests/params.pp": "53898bcf574c2bf59d8107bee1ee7fb9",
-    "manifests/plus.pp": "504aea6710725b9be7409d8a7d038f29",
-    "manifests/rpm_gpg_key.pp": "b38954172494f4ba1ccdbcc889f422b1",
-    "manifests/updates.pp": "10e94d5bb5801f5e14c72527040ad4fe",
-    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
-    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
-    "tests/init.pp": "e0be6f7137cb98259481fec560206e16"
-  },
-  "dependencies": []
+  "project_page": "https://github.com/flakrat/repo_centos",
+  "license": "Apache License, Version 2.0"
 }

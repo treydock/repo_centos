@@ -13,7 +13,7 @@ class repo_centos::params {
   if $::osfamily == 'RedHat' {
     if $::operatingsystem == 'CentOS' {
        $ostype = 'CentOS'
-       $url = "http://files.uabgrid.uab.edu/repo/centos"
+       $repourl= "http://files.uabgrid.uab.edu/repo/centos"
        $urlbit = "${::os_maj_version}"
     }
   }

@@ -16,7 +16,7 @@ class repo_centos::plus  (
   }
 
   yumrepo { 'centos-plus':
-    baseurl  => "${url}/${urlbit}/centosplus/${::architecture}",
+    baseurl  => "${repourl}/${urlbit}/centosplus/${::architecture}",
     descr    => "${operatingsystem} ${::os_maj_version} Plus - ${::architecture}",
     enabled  => "${enabled}",
     gpgcheck => '1',
