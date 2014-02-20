@@ -1,20 +1,15 @@
 # Optional parameters in setting up CentOS Yum repository
 class repo_centos::params {
-  # Setting to 'absent' will fall back to the yum.conf
-  # Setting proxy here will be the default for all repos.
-  #
-  #  If you wish to set a proxy for an individual set of repos,
-  #   you can declare $proxy in that class, and should scope to
-  #   the most specific declaration of proxy.
-  $proxy = 'absent'
-
-
-  # There are some URL manipulations that have to happen based on exact OS type
-  if $::osfamily == 'RedHat' {
-    if $::operatingsystem == 'CentOS' {
-       $ostype = 'CentOS'
-       $repourl= "http://files.uabgrid.uab.edu/repo/centos"
-       $urlbit = "${::os_maj_version}"
-    }
-  }
+  #                               http://mirror.centos.org/centos/$releasever/os/$basearch/
+  #                               baseurl  => "${repourl}/${urlbit}/os/${::architecture}",
+  $repourl                     = 'http://mirror.centos.org/centos'
+  $enable_base                 = true
+  $enable_contrib              = false
+  $enable_cr                   = false
+  $enable_extras               = true
+  $enable_plus                 = false
+  $enable_scl                  = false
+  $enable_updates              = true
+  $ostype = 'CentOS'
+  $urlbit = "${::os_maj_version}"
 }

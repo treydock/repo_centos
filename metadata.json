@@ -1,10 +1,15 @@
 {
   "name": "flakrat-repo_centos",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "summary": "Configures the CentOS 5 or 6 Yum repository config to point to a local mirror",
   "author": "flakrat",
-  "description": "Based off of http://github.com/stahnma/puppet-module-puppetlabs_yum\n\nManage the repository definitions on CentOS clients",
-  "dependencies": [],
+  "description": "Manage the CentOS repositories on CentOS clients (currently supports releases 5 and 6).\n\nTODO:\n * Add CentOS-Media.repo contents\n * Add CentOS-Debuginfo.repo contents\n * Add CentOS-Vault.repo contents\n * Make yum priorities configurable\n\nOriginally based off of http://github.com/stahnma/puppet-module-puppetlabs_yum",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "\u003e\u003d 2.0.0"
+    }
+  ],
   "types": [],
   "checksums": {},
   "source": "https://github.com/flakrat/repo_centos.git",
