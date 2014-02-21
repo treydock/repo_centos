@@ -1,7 +1,8 @@
 # Configure repositories for CentOS to point to custom repo
 
 # About
-This module manages the CentOS repositories on CentOS clients.
+This is a puppet module that manages the CentOS repositories
+on CentOS clients.
 
 By default, the module configures the repo files to use
 http://mirror.centos.org/centos as the package source. This
