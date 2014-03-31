@@ -91,6 +91,7 @@ class repo_centos (
 
     file { "/etc/yum.repos.d/centos${releasever}.repo": ensure => absent, before => Anchor['repo_centos::start'] }
     file { '/etc/yum.repos.d/CentOS-Base.repo': ensure => absent, before => Anchor['repo_centos::start'] }
+    file { '/etc/yum.repos.d/CentOS-Vault.repo': ensure => absent, before => Anchor['repo_centos::start'] }
     file { '/etc/yum.repos.d/CentOS-Debuginfo.repo': ensure => absent, before => Anchor['repo_centos::start'] }
     file { '/etc/yum.repos.d/CentOS-Media.repo': ensure => absent, before => Anchor['repo_centos::start'] }
 
