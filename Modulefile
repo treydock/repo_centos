@@ -16,3 +16,4 @@ TODO:
 
 Originally based off of http://github.com/stahnma/puppet-module-puppetlabs_yum'
 dependency 'puppetlabs/stdlib', '>= 2.0.0'
+dependency 'treydock/gpg_key', '0.0.x'

@@ -6,7 +6,7 @@
 #
 # $repourl::                       The base repo URL, if not specified defaults to the
 #                                  CentOS Mirror
-#                                  
+#
 # $enable_base::                   Enable the CentOS Base Repo
 #                                  type:boolean
 #
@@ -64,8 +64,13 @@ class repo_centos (
   validate_bool($enable_plus)
   validate_bool($enable_scl)
   validate_bool($enable_updates)
-  
+
   if $::operatingsystem == 'CentOS' {
+    $releasever = $repo_centos::params::releasever
+
+    anchor { 'repo_centos::start': }
+    anchor { 'repo_centos::end': }
+
     include repo_centos::base
     include repo_centos::contrib
     include repo_centos::cr
@@ -73,22 +78,33 @@ class repo_centos (
     include repo_centos::plus
     include repo_centos::scl
     include repo_centos::updates
-    
-    file { "/etc/yum.repos.d/centos${::os_maj_version}.repo": ensure => absent, }
-	  file { "/etc/yum.repos.d/CentOS-Base.repo": ensure => absent, }
-	  file { "/etc/yum.repos.d/CentOS-Debuginfo.repo": ensure => absent, }
-	  file { "/etc/yum.repos.d/CentOS-Media.repo": ensure => absent, }
-	  
-    repo_centos::rpm_gpg_key{ "RPM-GPG-KEY-CentOS-${::os_maj_version}":
-      path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::os_maj_version}",
+
+    Anchor['repo_centos::start']->
+    Class['repo_centos::base']->
+    Class['repo_centos::contrib']->
+    Class['repo_centos::cr']->
+    Class['repo_centos::extras']->
+    Class['repo_centos::plus']->
+    Class['repo_centos::scl']->
+    Class['repo_centos::updates']->
+    Anchor['repo_centos::end']
+
+    file { "/etc/yum.repos.d/centos${releasever}.repo": ensure => absent, before => Anchor['repo_centos::start'] }
+    file { '/etc/yum.repos.d/CentOS-Base.repo': ensure => absent, before => Anchor['repo_centos::start'] }
+    file { '/etc/yum.repos.d/CentOS-Debuginfo.repo': ensure => absent, before => Anchor['repo_centos::start'] }
+    file { '/etc/yum.repos.d/CentOS-Media.repo': ensure => absent, before => Anchor['repo_centos::start'] }
+
+    gpg_key { "RPM-GPG-KEY-CentOS-${releasever}":
+      path    => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}",
+      before  => Anchor['repo_centos::start'],
     }
 
-    file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::os_maj_version}":
+    file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}":
       ensure => present,
       owner  => 0,
       group  => 0,
       mode   => '0644',
-      source => "puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-${::os_maj_version}",
+      source => "puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-${releasever}",
     }
 
   } else {

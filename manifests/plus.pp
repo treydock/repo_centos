@@ -8,20 +8,20 @@
 class repo_centos::plus inherits repo_centos {
 
   if $repo_centos::enable_plus {
-    $enabled = 1
+    $enabled = '1'
   } else {
-    $enabled = 0
+    $enabled = '0'
   }
-  
+
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras
   #baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
 
   yumrepo { 'centos-plus':
-    baseurl  => "${repourl}/${urlbit}/centosplus/${::architecture}",
-    descr    => "${operatingsystem} ${::os_maj_version} Plus - ${::architecture}",
-    enabled  => "${enabled}",
+    baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/centosplus/${::architecture}",
+    descr    => "${::operatingsystem} ${repo_centos::releasever} Plus - ${::architecture}",
+    enabled  => $enabled,
     gpgcheck => '1',
-    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::os_maj_version}",
+    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
     #priority => '2',
   }
 

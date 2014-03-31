@@ -1,4 +1,4 @@
-# The Software Collections  ( SCL ) repository contains rpms for newer 
+# The Software Collections  ( SCL ) repository contains rpms for newer
 # software that can be installed alongside default versions
 #
 # Look at http://wiki.centos.org/AdditionalResources/Repositories/SCL
@@ -14,21 +14,21 @@
 class repo_centos::scl inherits repo_centos {
 
   if $repo_centos::enable_scl {
-    $enabled = 1
+    $enabled = '1'
   } else {
-    $enabled = 0
+    $enabled = '0'
   }
 
   #baseurl=http://mirror.centos.org/centos/$releasever/SCL/$basearch/
-  
-  if $urlbit == 6 {
-	  yumrepo { 'centos-scl':
-	    baseurl  => "${repourl}/${urlbit}/SCL/${::architecture}",
-	    descr    => "${operatingsystem} ${::os_maj_version} The Software Collection - ${::architecture}",
-	    enabled  => "${enabled}",
-	    gpgcheck => '1',
-	    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::os_maj_version}",
-	    #priority => '1',
-	  }
+
+  if $repo_centos::urlbit == '6' {
+    yumrepo { 'centos-scl':
+      baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/SCL/${::architecture}",
+      descr    => "${::operatingsystem} ${repo_centos::releasever} The Software Collection - ${::architecture}",
+      enabled  => $enabled,
+      gpgcheck => '1',
+      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
+      #priority => '1',
+    }
   }
 }

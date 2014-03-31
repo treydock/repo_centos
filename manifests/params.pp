@@ -1,5 +1,14 @@
 # Optional parameters in setting up CentOS Yum repository
 class repo_centos::params {
+
+  if $::operatingsystemmajrelease {
+    $releasever = $::operatingsystemmajrelease
+  } elsif $::os_maj_version {
+    $releasever = $::os_maj_version
+  } else {
+    $releasever = inline_template("<%= \"${::operatingsystemrelease}\".split('.').first %>")
+  }
+
   #                               http://mirror.centos.org/centos/$releasever/os/$basearch/
   #                               baseurl  => "${repourl}/${urlbit}/os/${::architecture}",
   $repourl                     = 'http://mirror.centos.org/centos'
@@ -11,5 +20,5 @@ class repo_centos::params {
   $enable_scl                  = false
   $enable_updates              = true
   $ostype = 'CentOS'
-  $urlbit = "${::os_maj_version}"
+  $urlbit = $releasever
 }
