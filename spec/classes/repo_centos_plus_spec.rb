@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'repo_centos::plus' do
   let :facts do
     {
-      :operatingsystem        => 'CentOS',
-      :os_maj_version         => '6',
-      :architecture           => 'x86_64',
+      :operatingsystem            => 'CentOS',
+      :operatingsystemmajrelease  => '6',
+      :architecture               => 'x86_64',
     }
   end
 
@@ -32,5 +32,25 @@ describe 'repo_centos::plus' do
     let(:pre_condition) { "class { 'repo_centos': enable_plus => true }"}
 
     it { should contain_yumrepo('centos-plus').with_enabled('1') }
+  end
+
+  context 'when operatingsystemmajrelease => 5' do
+    let :facts do
+      {
+        :operatingsystem            => 'CentOS',
+        :operatingsystemmajrelease  => '5',
+        :architecture               => 'x86_64',
+      }
+    end
+
+    it do
+      should contain_yumrepo('centos-plus').with({
+        :baseurl  => 'http://mirror.centos.org/centos/5/centosplus/x86_64',
+        :descr    => "CentOS 5 Plus - x86_64",
+        :enabled  => '0',
+        :gpgcheck => '1',
+        :gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5',
+      })
+    end
   end
 end

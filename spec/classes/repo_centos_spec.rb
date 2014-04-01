@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'repo_centos' do
   shared_examples 'centos-6' do
+    let(:pre_condition) { "package { 'httpd': ensure => present }" }
+
+    it { should contain_package('httpd').with_ensure('present') }
+
     it { should have_class_count(9) }
     it { should have_file_resource_count(6) }
     it { should have_gpg_key_resource_count(1) }
@@ -19,6 +23,7 @@ describe 'repo_centos' do
     it { should contain_class('repo_centos::plus').that_comes_before('Class[repo_centos::scl]') }
     it { should contain_class('repo_centos::scl').that_comes_before('Class[repo_centos::updates]') }
     it { should contain_class('repo_centos::updates').that_comes_before('Anchor[repo_centos::end]') }
+    it { should contain_class('Anchor[repo_centos::end]').that_comes_before('Package[httpd]') }
 
     it { should contain_file('/etc/yum.repos.d/centos6.repo').
       with_ensure('absent').

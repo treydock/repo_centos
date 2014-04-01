@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'repo_centos::scl' do
   let :facts do
     {
-      :operatingsystem        => 'CentOS',
-      :os_maj_version         => '6',
-      :architecture           => 'x86_64',
+      :operatingsystem            => 'CentOS',
+      :operatingsystemmajrelease  => '6',
+      :architecture               => 'x86_64',
     }
   end
 
@@ -34,12 +34,12 @@ describe 'repo_centos::scl' do
     it { should contain_yumrepo('centos-scl').with_enabled('1') }
   end
 
-  context 'when os_maj_version => 5' do
+  context 'when operatingsystemmajrelease => 5' do
     let :facts do
       {
-        :operatingsystem        => 'CentOS',
-        :os_maj_version         => '5',
-        :architecture           => 'x86_64',
+        :operatingsystem            => 'CentOS',
+        :operatingsystemmajrelease  => '5',
+        :architecture               => 'x86_64',
       }
     end
 

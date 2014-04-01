@@ -87,7 +87,8 @@ class repo_centos (
     Class['repo_centos::plus']->
     Class['repo_centos::scl']->
     Class['repo_centos::updates']->
-    Anchor['repo_centos::end']
+    Anchor['repo_centos::end']->
+    Package<| |>
 
     file { "/etc/yum.repos.d/centos${releasever}.repo": ensure => absent, before => Anchor['repo_centos::start'] }
     file { '/etc/yum.repos.d/CentOS-Base.repo': ensure => absent, before => Anchor['repo_centos::start'] }
