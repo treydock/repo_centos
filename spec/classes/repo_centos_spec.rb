@@ -7,7 +7,7 @@ describe 'repo_centos' do
     it { should contain_package('httpd').with_ensure('present') }
 
     it { should have_class_count(9) }
-    it { should have_file_resource_count(6) }
+    it { should have_file_resource_count(7) }
     it { should have_gpg_key_resource_count(1) }
 
     it { should create_class('repo_centos') }
@@ -22,29 +22,21 @@ describe 'repo_centos' do
     it { should contain_class('repo_centos::extras').that_comes_before('Class[repo_centos::plus]') }
     it { should contain_class('repo_centos::plus').that_comes_before('Class[repo_centos::scl]') }
     it { should contain_class('repo_centos::scl').that_comes_before('Class[repo_centos::updates]') }
-    it { should contain_class('repo_centos::updates').that_comes_before('Anchor[repo_centos::end]') }
+    it { should contain_class('repo_centos::updates').that_comes_before('File[/etc/yum.repos.d/centos6.repo]') }
+    it { should contain_file('/etc/yum.repos.d/centos6.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-Base.repo]') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Base.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-Vault.repo]') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-Debuginfo.repo]') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-Media.repo]') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-SCL.repo]') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-SCL.repo').that_comes_before('Anchor[repo_centos::end]') }
     it { should contain_class('Anchor[repo_centos::end]').that_comes_before('Package[httpd]') }
 
-    it { should contain_file('/etc/yum.repos.d/centos6.repo').
-      with_ensure('absent').
-      with_before('Anchor[repo_centos::start]')
-    }
-    it { should contain_file('/etc/yum.repos.d/CentOS-Base.repo').
-      with_ensure('absent').
-      with_before('Anchor[repo_centos::start]')
-    }
-    it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').
-      with_ensure('absent').
-      with_before('Anchor[repo_centos::start]')
-    }
-    it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').
-      with_ensure('absent').
-      with_before('Anchor[repo_centos::start]')
-    }
-    it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').
-      with_ensure('absent').
-      with_before('Anchor[repo_centos::start]')
-    }
+    it { should contain_file('/etc/yum.repos.d/centos6.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Base.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-SCL.repo').with_ensure('absent') }
 
     it { should contain_gpg_key('RPM-GPG-KEY-CentOS-6').
       with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6').
@@ -107,7 +99,8 @@ describe 'repo_centos' do
       }
     end
 
-    it { should contain_file('/etc/yum.repos.d/centos5.repo') }
+    it { should contain_class('repo_centos::updates').that_comes_before('File[/etc/yum.repos.d/centos5.repo]') }
+    it { should contain_file('/etc/yum.repos.d/centos5.repo').that_comes_before('File[/etc/yum.repos.d/CentOS-Base.repo]') }
     it { should contain_gpg_key('RPM-GPG-KEY-CentOS-5').with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5') }
     it { should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5').with_source('puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-5') }
   end

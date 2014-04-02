@@ -79,6 +79,13 @@ class repo_centos (
     include repo_centos::scl
     include repo_centos::updates
 
+    file { "/etc/yum.repos.d/centos${releasever}.repo": ensure => absent }
+    file { '/etc/yum.repos.d/CentOS-Base.repo': ensure => absent }
+    file { '/etc/yum.repos.d/CentOS-Vault.repo': ensure => absent }
+    file { '/etc/yum.repos.d/CentOS-Debuginfo.repo': ensure => absent }
+    file { '/etc/yum.repos.d/CentOS-Media.repo': ensure => absent }
+    file { '/etc/yum.repos.d/CentOS-SCL.repo': ensure => absent }
+
     Anchor['repo_centos::start']->
     Class['repo_centos::base']->
     Class['repo_centos::contrib']->
@@ -87,14 +94,16 @@ class repo_centos (
     Class['repo_centos::plus']->
     Class['repo_centos::scl']->
     Class['repo_centos::updates']->
+    File["/etc/yum.repos.d/centos${releasever}.repo"]->
+    File['/etc/yum.repos.d/CentOS-Base.repo']->
+    File['/etc/yum.repos.d/CentOS-Vault.repo']->
+    File['/etc/yum.repos.d/CentOS-Debuginfo.repo']->
+    File['/etc/yum.repos.d/CentOS-Media.repo']->
+    File['/etc/yum.repos.d/CentOS-SCL.repo']->
     Anchor['repo_centos::end']->
     Package<| |>
 
-    file { "/etc/yum.repos.d/centos${releasever}.repo": ensure => absent, before => Anchor['repo_centos::start'] }
-    file { '/etc/yum.repos.d/CentOS-Base.repo': ensure => absent, before => Anchor['repo_centos::start'] }
-    file { '/etc/yum.repos.d/CentOS-Vault.repo': ensure => absent, before => Anchor['repo_centos::start'] }
-    file { '/etc/yum.repos.d/CentOS-Debuginfo.repo': ensure => absent, before => Anchor['repo_centos::start'] }
-    file { '/etc/yum.repos.d/CentOS-Media.repo': ensure => absent, before => Anchor['repo_centos::start'] }
+
 
     gpg_key { "RPM-GPG-KEY-CentOS-${releasever}":
       path    => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}",

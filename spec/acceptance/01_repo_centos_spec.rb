@@ -51,6 +51,7 @@ describe 'repo_centos class' do
       "/etc/yum.repos.d/CentOS-Vault.repo",
       "/etc/yum.repos.d/CentOS-Debuginfo.repo",
       "/etc/yum.repos.d/CentOS-Media.repo",
+      "/etc/yum.repos.d/CentOS-SCL.repo",
     ].each do |repo_file|
       describe file(repo_file) do
         it { should_not be_file }
