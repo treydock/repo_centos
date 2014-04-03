@@ -56,9 +56,6 @@ describe 'repo_centos class' do
       describe file(repo_file) do
         it { should_not be_file }
       end
-#      describe command("test -f #{repo_file}") do
-#        it { should return_exit_status 1 }
-#      end
     end
   end
 end
