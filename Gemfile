@@ -16,9 +16,6 @@ end
 group :development do
   gem 'beaker',                 :require => false
   gem 'beaker-rspec',           :require => false
-  # specinfra required until specinfra-1.0.2 is released
-  # Ref: https://github.com/serverspec/specinfra/pull/77
-  gem 'specinfra',              :require => false, :git => 'https://github.com/serverspec/specinfra.git', :ref => '679770067f'
   gem 'system_timer',           :require => false
   gem 'vagrant-wrapper',        :require => false
 end

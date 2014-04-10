@@ -1,5 +1,5 @@
 name 'flakrat-repo_centos'
-version '2.0.0'
+version '2.0.1'
 
 author 'flakrat'
 license 'Apache License, Version 2.0'

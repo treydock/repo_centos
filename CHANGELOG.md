@@ -4,6 +4,12 @@ Release notes for the flakrat-repo_centos module.
 
 ------------------------------------------
 
+#### 2.0.1 - 2014/04/10
+
+Bug fix for beaker acceptance tests.
+
+------------------------------------------
+
 #### 2.0.0 - 2014/04/01
 
 This major release
