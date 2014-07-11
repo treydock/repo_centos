@@ -7,7 +7,7 @@ describe 'repo_centos' do
     it { should contain_package('httpd').with_ensure('present') }
 
     it { should have_class_count(10) }
-    it { should have_file_resource_count(7) }
+    it { should have_file_resource_count(8) }
     it { should have_gpg_key_resource_count(1) }
 
     it { should create_class('repo_centos') }
@@ -44,6 +44,19 @@ describe 'repo_centos' do
     end
   end
 
+  context 'when operatingsystemmajrelease => 7, os_maj_version => undef, and operatingsystemrelease => undef' do
+    let :facts do
+      {
+        :operatingsystem            => 'CentOS',
+        :operatingsystemmajrelease  => '7',
+        :architecture               => 'x86_64',
+      }
+    end
+
+    it { should contain_gpg_key('RPM-GPG-KEY-CentOS-7').with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7') }
+    it { should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7').with_source('puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-7') }
+  end
+
   context 'when operatingsystemmajrelease => undef, os_maj_version => undef, and operatingsystemrelease => 6.5' do
     let :facts do
       {
@@ -56,7 +69,7 @@ describe 'repo_centos' do
     it_behaves_like 'centos-6'
   end
 
-  context 'when operatingsystemmajrelease => 6, os_maj_version => undef, and operatingsystemrelease => 6.5' do
+  context 'when operatingsystemmajrelease => 6, os_maj_version => undef, and operatingsystemrelease => undef' do
     let :facts do
       {
         :operatingsystem            => 'CentOS',
@@ -68,7 +81,7 @@ describe 'repo_centos' do
     it_behaves_like 'centos-6'
   end
 
-  context 'when operatingsystemmajrelease => undef, os_maj_version => 6, and operatingsystemrelease => 6.5' do
+  context 'when operatingsystemmajrelease => undef, os_maj_version => 6, and operatingsystemrelease => undef' do
     let :facts do
       {
         :operatingsystem            => 'CentOS',

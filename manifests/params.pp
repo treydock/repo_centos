@@ -6,7 +6,7 @@ class repo_centos::params {
   } elsif $::os_maj_version {
     $releasever = $::os_maj_version
   } else {
-    $releasever = inline_template("<%= \"${::operatingsystemrelease}\".split('.').first %>")
+    $releasever = inline_template('<%= @operatingsystemrelease.split(".").first %>')
   }
 
   #                               http://mirror.centos.org/centos/$releasever/os/$basearch/

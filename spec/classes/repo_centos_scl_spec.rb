@@ -34,6 +34,18 @@ describe 'repo_centos::scl' do
     it { should contain_yumrepo('centos-scl').with_enabled('1') }
   end
 
+  context 'when operatingsystemmajrelease => 7' do
+    let :facts do
+      {
+        :operatingsystem            => 'CentOS',
+        :operatingsystemmajrelease  => '7',
+        :architecture               => 'x86_64',
+      }
+    end
+
+    it { should_not contain_yumrepo('centos-scl') }
+  end
+
   context 'when operatingsystemmajrelease => 5' do
     let :facts do
       {

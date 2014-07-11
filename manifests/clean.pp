@@ -9,6 +9,7 @@ class repo_centos::clean {
   file { '/etc/yum.repos.d/CentOS-Vault.repo': ensure => absent }
   file { '/etc/yum.repos.d/CentOS-Debuginfo.repo': ensure => absent }
   file { '/etc/yum.repos.d/CentOS-Media.repo': ensure => absent }
+  file { '/etc/yum.repos.d/CentOS-Sources.repo': ensure => absent }
   file { '/etc/yum.repos.d/CentOS-SCL.repo': ensure => absent }
 
 }

@@ -8,7 +8,6 @@ begin
     add_filter '/spec/'
   end
 
-  at_exit { RSpec::Puppet::Coverage.report! }
 rescue Exception => e
   warn "Coveralls disabled"
 end

@@ -18,7 +18,26 @@ describe 'repo_centos::clean' do
   it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').with_ensure('absent') }
   it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').with_ensure('absent') }
   it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').with_ensure('absent') }
+  it { should contain_file('/etc/yum.repos.d/CentOS-Sources.repo').with_ensure('absent') }
   it { should contain_file('/etc/yum.repos.d/CentOS-SCL.repo').with_ensure('absent') }
+
+  context 'when operatingsystemmajrelease => 7' do
+    let :facts do
+      {
+        :operatingsystem            => 'CentOS',
+        :operatingsystemmajrelease  => '7',
+        :architecture               => 'x86_64',
+      }
+    end
+
+    it { should contain_file('/etc/yum.repos.d/centos7.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Base.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Sources.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-SCL.repo').with_ensure('absent') }
+  end
 
   context 'when operatingsystemmajrelease => 5' do
     let :facts do
@@ -34,6 +53,7 @@ describe 'repo_centos::clean' do
     it { should contain_file('/etc/yum.repos.d/CentOS-Vault.repo').with_ensure('absent') }
     it { should contain_file('/etc/yum.repos.d/CentOS-Debuginfo.repo').with_ensure('absent') }
     it { should contain_file('/etc/yum.repos.d/CentOS-Media.repo').with_ensure('absent') }
+    it { should contain_file('/etc/yum.repos.d/CentOS-Sources.repo').with_ensure('absent') }
     it { should contain_file('/etc/yum.repos.d/CentOS-SCL.repo').with_ensure('absent') }
   end
 end
