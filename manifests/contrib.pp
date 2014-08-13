@@ -1,6 +1,8 @@
 # CentOS Contrib - packages by Centos Users
 # This repository is shipped with CentOS and is disabled by default
-class repo_centos::contrib inherits repo_centos {
+class repo_centos::contrib {
+
+  include repo_centos
 
   if $repo_centos::enable_contrib {
     $enabled = '1'

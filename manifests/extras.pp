@@ -5,7 +5,9 @@
 # They have not been tested by the upstream provider and are not available
 # in the upstream products.
 # This repository is shipped with CentOS and is enabled by default
-class repo_centos::extras inherits repo_centos {
+class repo_centos::extras {
+
+  include repo_centos
 
   if $repo_centos::enable_extras {
     $enabled = '1'

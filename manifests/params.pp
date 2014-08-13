@@ -9,9 +9,9 @@ class repo_centos::params {
     $releasever = inline_template('<%= @operatingsystemrelease.split(".").first %>')
   }
 
-  #                               http://mirror.centos.org/centos/$releasever/os/$basearch/
-  #                               baseurl  => "${repourl}/${urlbit}/os/${::architecture}",
   $repourl                     = 'http://mirror.centos.org/centos'
+  $debug_repourl               = 'http://debuginfo.centos.org'
+  $source_repourl              = 'http://vault.centos.org'
   $enable_base                 = true
   $enable_contrib              = false
   $enable_cr                   = false
@@ -19,6 +19,8 @@ class repo_centos::params {
   $enable_plus                 = false
   $enable_scl                  = false
   $enable_updates              = true
-  $ostype = 'CentOS'
-  $urlbit = $releasever
+  $enable_source               = false
+  $enable_debug                = false
+  $ostype                      = 'CentOS'
+  $urlbit                      = $releasever
 }

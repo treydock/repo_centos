@@ -1,5 +1,7 @@
 # Base includes the CentOS base files from the initial release
-class repo_centos::base inherits repo_centos {
+class repo_centos::base {
+
+  include ::repo_centos
 
   if $repo_centos::enable_base {
     $enabled = '1'

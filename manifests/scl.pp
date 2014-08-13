@@ -11,7 +11,9 @@
 # yum install centos-release-SCL
 #
 # Reference: http://wiki.centos.org/AdditionalResources/Repositories/SCL
-class repo_centos::scl inherits repo_centos {
+class repo_centos::scl {
+
+  include repo_centos
 
   if $repo_centos::enable_scl {
     $enabled = '1'

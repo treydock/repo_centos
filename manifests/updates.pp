@@ -1,5 +1,7 @@
 # The CentOS Updates repository
-class repo_centos::updates inherits repo_centos {
+class repo_centos::updates {
+
+  include repo_centos
 
   if $repo_centos::enable_updates {
     $enabled = '1'

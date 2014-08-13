@@ -1,96 +1,30 @@
 require 'spec_helper'
 
 describe 'repo_centos' do
-  shared_examples 'centos-6' do
-    let(:pre_condition) { "package { 'httpd': ensure => present }" }
-
-    it { should contain_package('httpd').with_ensure('present') }
-
-    it { should have_class_count(10) }
-    it { should have_file_resource_count(8) }
-    it { should have_gpg_key_resource_count(1) }
-
-    it { should create_class('repo_centos') }
-    it { should contain_class('repo_centos::params') }
-
-    it { should contain_stage('repo_centos_clean').with_before('Stage[main]') }
-    it { should contain_class('repo_centos::clean').with_stage('repo_centos_clean') }
-
-    it { should contain_anchor('repo_centos::start').that_comes_before('Class[repo_centos::base]') }
-    it { should contain_anchor('repo_centos::end') }
-
-    it { should contain_class('repo_centos::base').that_comes_before('Class[repo_centos::contrib]') }
-    it { should contain_class('repo_centos::contrib').that_comes_before('Class[repo_centos::cr]') }
-    it { should contain_class('repo_centos::cr').that_comes_before('Class[repo_centos::extras]') }
-    it { should contain_class('repo_centos::extras').that_comes_before('Class[repo_centos::plus]') }
-    it { should contain_class('repo_centos::plus').that_comes_before('Class[repo_centos::scl]') }
-    it { should contain_class('repo_centos::scl').that_comes_before('Class[repo_centos::updates]') }
-    it { should contain_class('repo_centos::updates').that_comes_before('Anchor[repo_centos::end]') }
-    it { should contain_class('Anchor[repo_centos::end]').that_comes_before('Package[httpd]') }
-
-    it { should contain_gpg_key('RPM-GPG-KEY-CentOS-6').
-      with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6').
-      with_before('Anchor[repo_centos::start]')
-    }
-
-    it do
-      should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6').with({
-        :ensure => 'present',
-        :owner  => '0',
-        :group  => '0',
-        :mode   => '0644',
-        :source => 'puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-6',
-      })
-    end
-  end
-
   context 'when operatingsystemmajrelease => 7, os_maj_version => undef, and operatingsystemrelease => undef' do
     let :facts do
       {
         :operatingsystem            => 'CentOS',
+        :operatingsystemrelease     => '7.0.1406',
         :operatingsystemmajrelease  => '7',
         :architecture               => 'x86_64',
       }
     end
 
-    it { should contain_gpg_key('RPM-GPG-KEY-CentOS-7').with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7') }
-    it { should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7').with_source('puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-7') }
+    it_behaves_like 'centos7'
   end
 
-  context 'when operatingsystemmajrelease => undef, os_maj_version => undef, and operatingsystemrelease => 6.5' do
+  context 'when operatingsystemmajrelease => 6' do
     let :facts do
       {
         :operatingsystem            => 'CentOS',
         :operatingsystemrelease     => '6.5',
-        :architecture               => 'x86_64',
-      }
-    end
-
-    it_behaves_like 'centos-6'
-  end
-
-  context 'when operatingsystemmajrelease => 6, os_maj_version => undef, and operatingsystemrelease => undef' do
-    let :facts do
-      {
-        :operatingsystem            => 'CentOS',
         :operatingsystemmajrelease  => '6',
         :architecture               => 'x86_64',
       }
     end
 
-    it_behaves_like 'centos-6'
-  end
-
-  context 'when operatingsystemmajrelease => undef, os_maj_version => 6, and operatingsystemrelease => undef' do
-    let :facts do
-      {
-        :operatingsystem            => 'CentOS',
-        :os_maj_version             => '6',
-        :architecture               => 'x86_64',
-      }
-    end
-
-    it_behaves_like 'centos-6'
+    it_behaves_like 'centos6'
   end
 
   context 'when os_maj_version => 5' do
@@ -102,7 +36,6 @@ describe 'repo_centos' do
       }
     end
 
-    it { should contain_class('repo_centos::updates').that_comes_before('Anchor[repo_centos::end]') }
     it { should contain_gpg_key('RPM-GPG-KEY-CentOS-5').with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5') }
     it { should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5').with_source('puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-5') }
   end
@@ -127,5 +60,7 @@ describe 'repo_centos' do
     it { should_not contain_class('repo_centos::plus') }
     it { should_not contain_class('repo_centos::scl') }
     it { should_not contain_class('repo_centos::updates') }
+    it { should_not contain_class('repo_centos::source') }
+    it { should_not contain_class('repo_centos::debug') }
   end
 end

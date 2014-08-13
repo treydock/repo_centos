@@ -5,7 +5,9 @@
 # and they all work with CentOS. They have not been tested by the
 # upstream provider and are not available in the upstream products.
 # This repository is shipped with CentOS but is not enabled by default.
-class repo_centos::plus inherits repo_centos {
+class repo_centos::plus {
+
+  include repo_centos
 
   if $repo_centos::enable_plus {
     $enabled = '1'

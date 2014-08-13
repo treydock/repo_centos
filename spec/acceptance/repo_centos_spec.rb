@@ -29,6 +29,9 @@ describe 'repo_centos class' do
       'centos-contrib',
       'centos-cr',
       'centos-plus',
+      'centos-base-source',
+      'centos-updates-source',
+      'centos-debug',
     ].each do |repo|
       describe yumrepo(repo) do
         it { should exist }
@@ -51,6 +54,7 @@ describe 'repo_centos class' do
       "/etc/yum.repos.d/CentOS-Vault.repo",
       "/etc/yum.repos.d/CentOS-Debuginfo.repo",
       "/etc/yum.repos.d/CentOS-Media.repo",
+      "/etc/yum.repos.d/CentOS-Sources.repo",
       "/etc/yum.repos.d/CentOS-SCL.repo",
     ].each do |repo_file|
       describe file(repo_file) do

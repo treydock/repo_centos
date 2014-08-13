@@ -5,7 +5,9 @@
 # Look at http://wiki.centos.org/AdditionalResources/Repositories/CR
 # for more details about how this repository works and what users
 # should expect to see included / excluded
-class repo_centos::cr inherits repo_centos {
+class repo_centos::cr {
+
+  include repo_centos
 
   if $repo_centos::enable_cr {
     $enabled = '1'
