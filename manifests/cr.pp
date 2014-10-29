@@ -17,6 +17,11 @@ class repo_centos::cr {
 
   #baseurl=http://mirror.centos.org/centos/$releasever/cr/$basearch/
 
+  # Yumrepo ensure only in Puppet >= 3.5.0
+  if versioncmp($::puppetversion, '3.5.0') >= 0 {
+    Yumrepo <| title == 'centos-cr' |> { ensure => $repo_centos::ensure_cr }
+  }
+
   yumrepo { 'centos-cr':
     baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/cr/${::architecture}",
     descr    => "${::operatingsystem} ${repo_centos::releasever} Continuous Release - ${::architecture}",

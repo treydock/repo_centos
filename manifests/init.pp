@@ -58,6 +58,15 @@ class repo_centos (
     $enable_updates              = $repo_centos::params::enable_updates,
     $enable_source               = $repo_centos::params::enable_source,
     $enable_debug                = $repo_centos::params::enable_debug,
+    $ensure_base                 = $repo_centos::params::ensure_base,
+    $ensure_contrib              = $repo_centos::params::ensure_contrib,
+    $ensure_cr                   = $repo_centos::params::ensure_cr,
+    $ensure_extras               = $repo_centos::params::ensure_extras,
+    $ensure_plus                 = $repo_centos::params::ensure_plus,
+    $ensure_scl                  = $repo_centos::params::ensure_scl,
+    $ensure_updates              = $repo_centos::params::ensure_updates,
+    $ensure_source               = $repo_centos::params::ensure_source,
+    $ensure_debug                = $repo_centos::params::ensure_debug,
   ) inherits repo_centos::params {
 
   validate_string($repourl)
@@ -108,13 +117,13 @@ class repo_centos (
     Package<| |>
 
     gpg_key { "RPM-GPG-KEY-CentOS-${releasever}":
-      path    => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}",
-      before  => Anchor['repo_centos::start'],
+      path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}",
+      before => Anchor['repo_centos::start'],
     }
 
     gpg_key { "RPM-GPG-KEY-CentOS-Debug-${releasever}":
-      path    => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
-      before  => Anchor['repo_centos::start'],
+      path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
+      before => Anchor['repo_centos::start'],
     }
 
     file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}":

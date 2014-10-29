@@ -12,6 +12,11 @@ class repo_centos::updates {
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates
   #baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/
 
+  # Yumrepo ensure only in Puppet >= 3.5.0
+  if versioncmp($::puppetversion, '3.5.0') >= 0 {
+    Yumrepo <| title == 'centos-updates' |> { ensure => $repo_centos::ensure_updates }
+  }
+
   yumrepo { 'centos-updates':
     baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/updates/${::architecture}",
     descr    => "${::operatingsystem} ${repo_centos::releasever} Updates - ${::architecture}",

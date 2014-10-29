@@ -23,4 +23,13 @@ class repo_centos::params {
   $enable_debug                = false
   $ostype                      = 'CentOS'
   $urlbit                      = $releasever
+  $ensure_base                 = 'present'
+  $ensure_contrib              = 'present'
+  $ensure_cr                   = 'present'
+  $ensure_extras               = 'present'
+  $ensure_plus                 = 'present'
+  $ensure_scl                  = 'present'
+  $ensure_updates              = 'present'
+  $ensure_source               = 'present'
+  $ensure_debug                = 'present'
 }

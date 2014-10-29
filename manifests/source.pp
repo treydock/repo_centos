@@ -9,6 +9,12 @@ class repo_centos::source {
     $enabled = '0'
   }
 
+  # Yumrepo ensure only in Puppet >= 3.5.0
+  if versioncmp($::puppetversion, '3.5.0') >= 0 {
+    Yumrepo <| title == 'centos-base-source' |> { ensure => $repo_centos::ensure_source }
+    Yumrepo <| title == 'centos-updates-source' |> { ensure => $repo_centos::ensure_source }
+  }
+
   yumrepo { 'centos-base-source':
     baseurl  => "${repo_centos::source_repourl}/${::operatingsystemrelease}/os/Source",
     descr    => "CentOS-${::operatingsystemrelease} - Base Source",

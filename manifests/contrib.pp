@@ -13,6 +13,11 @@ class repo_centos::contrib {
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib
   #baseurl=http://mirror.centos.org/centos/$releasever/contrib/$basearch/
 
+  # Yumrepo ensure only in Puppet >= 3.5.0
+  if versioncmp($::puppetversion, '3.5.0') >= 0 {
+    Yumrepo <| title == 'centos-contrib' |> { ensure => $repo_centos::ensure_contrib }
+  }
+
   yumrepo { 'centos-contrib':
     baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/contrib/${::architecture}",
     descr    => "${::operatingsystem} ${repo_centos::releasever} contrib - ${::architecture}",

@@ -8,6 +8,7 @@ describe 'repo_centos' do
         :operatingsystemrelease     => '7.0.1406',
         :operatingsystemmajrelease  => '7',
         :architecture               => 'x86_64',
+        :puppetversion              => PUPPET_VERSION,
       }
     end
 
@@ -21,6 +22,7 @@ describe 'repo_centos' do
         :operatingsystemrelease     => '6.5',
         :operatingsystemmajrelease  => '6',
         :architecture               => 'x86_64',
+        :puppetversion              => PUPPET_VERSION,
       }
     end
 
@@ -33,6 +35,7 @@ describe 'repo_centos' do
         :operatingsystem        => 'CentOS',
         :os_maj_version         => '5',
         :architecture           => 'x86_64',
+        :puppetversion          => PUPPET_VERSION,
       }
     end
 
@@ -46,6 +49,7 @@ describe 'repo_centos' do
         :operatingsystem        => 'Fedora',
         :os_maj_version         => '20',
         :architecture           => 'x86_64',
+        :puppetversion          => PUPPET_VERSION,
       }
     end
 

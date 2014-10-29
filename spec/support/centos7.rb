@@ -16,8 +16,6 @@ shared_examples 'centos7' do
   it { should contain_class('repo_centos::clean').with_stage('repo_centos_clean') }
 
   it { should contain_anchor('repo_centos::start').that_comes_before('Class[repo_centos::base]') }
-  it { should contain_anchor('repo_centos::end') }
-
   it { should contain_class('repo_centos::base').that_comes_before('Class[repo_centos::contrib]') }
   it { should contain_class('repo_centos::contrib').that_comes_before('Class[repo_centos::cr]') }
   it { should contain_class('repo_centos::cr').that_comes_before('Class[repo_centos::extras]') }
@@ -27,7 +25,7 @@ shared_examples 'centos7' do
   it { should contain_class('repo_centos::updates').that_comes_before('Class[repo_centos::source]') }
   it { should contain_class('repo_centos::source').that_comes_before('Class[repo_centos::debug]') }
   it { should contain_class('repo_centos::debug').that_comes_before('Anchor[repo_centos::end]') }
-  it { should contain_class('Anchor[repo_centos::end]').that_comes_before('Package[httpd]') }
+  it { should contain_anchor('repo_centos::end').that_comes_before('Package[httpd]') }
 
   it do
     should contain_gpg_key('RPM-GPG-KEY-CentOS-7').with({
@@ -62,4 +60,15 @@ shared_examples 'centos7' do
       :source => 'puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-Debug-7',
     })
   end
+
+  it_behaves_like 'repo_centos::clean', '7'
+  it_behaves_like 'repo_centos::base', '7'
+  it_behaves_like 'repo_centos::contrib', '7'
+  it_behaves_like 'repo_centos::cr', '7'
+  it_behaves_like 'repo_centos::extras', '7'
+  it_behaves_like 'repo_centos::plus', '7'
+  it_behaves_like 'repo_centos::scl', '7'
+  it_behaves_like 'repo_centos::updates', '7'
+  it_behaves_like 'repo_centos::source', '7'
+  it_behaves_like 'repo_centos::debug', '7'
 end
