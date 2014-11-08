@@ -40,7 +40,6 @@ describe 'repo_centos' do
     end
 
     it { should contain_gpg_key('RPM-GPG-KEY-CentOS-5').with_path('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5') }
-    it { should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5').with_source('puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-5') }
   end
 
   context 'when operatingsystem => "Fedora"' do
