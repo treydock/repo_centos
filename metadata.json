@@ -1,42 +1,37 @@
 {
+  "name": "flakrat-repo_centos",
+  "version": "2.0.1",
   "author": "flakrat",
-  "checksums": {
-    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
-    "manifests/scl.pp": "50369bb2a735505e8d5694f4c750e595",
-    "files/RPM-GPG-KEY-CentOS-Debug-6": "bdcd6dc29e7153cc416830a2f04f3952",
-    "manifests/base.pp": "1464142fc9abe36078d98ebb069246d8",
-    "files/RPM-GPG-KEY-CentOS-5": "d817a3fd309c8508cd768803632c47ae",
-    "files/RPM-GPG-KEY-CentOS-6": "40f512ad27d39d6fc8ec054ebf6a8152",
-    "lib/facter/os_maj_version.rb": "a1dd18a64d87e0b349f17a3c9b95dc0b",
-    "Modulefile": "3f15b5f7ba47e83e253d6f1d6bf12319",
-    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
-    "tests/init.pp": "e0be6f7137cb98259481fec560206e16",
-    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
-    "manifests/rpm_gpg_key.pp": "b38954172494f4ba1ccdbcc889f422b1",
-    "manifests/extras.pp": "11e9cefa3eeb09333b7f738b8923677c",
-    "LICENSE": "2b42edef8fa55315f34f2370b4715ca9",
-    "manifests/params.pp": "ecd942f9df0bfa9a54dc0ce090e2b2f4",
-    "files/RPM-GPG-KEY-CentOS-Testing-6": "e647c7f780b962f122640691a847b629",
-    "manifests/plus.pp": "6d6a6b516cfe38a5212a041ae4b3fd0e",
-    "manifests/updates.pp": "57d8b3a14bb684066d035771bf4f52ec",
-    "manifests/init.pp": "1791406698eb0e6e9971b8d1bc3e12a8",
-    "manifests/cr.pp": "37bd3ff06d34968bd9a0bb8297dae28e",
-    "files/RPM-GPG-KEY-CentOS-Security-6": "b8bf3156c5cc43f967d6ae93d12412e7",
-    "manifests/contrib.pp": "f161415e9b8f57c2423ceeaae877c8fe",
-    "README.md": "529a9762709397a5f6b14ef19f737609"
-  },
+  "summary": "Manage the CentOS YUM repositories on CentOS clients.",
+  "license": "Apache License, Version 2.0",
+  "project_page": "https://github.com/flakrat/repo_centos",
+  "issues_url": "https://github.com/flakrat/repo_centos/issues",
+  "source": "https://github.com/flakrat/repo_centos.git",
+  "tags": [ "CentOS", "repository", "RPM", "yum" ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "\u003e\u003d 2.0.0"
+      "version_requirement": ">=2.0.0"
+    },
+    {
+      "name": "treydock/gpg_key",
+      "version_requirement": ">=0.0.3"
     }
   ],
-  "description": "Manage the CentOS repositories on CentOS clients (currently supports releases 5 and 6).\n\nTODO:\n * Add CentOS-Media.repo contents\n * Add CentOS-Debuginfo.repo contents\n * Add CentOS-Vault.repo contents\n * Make yum priorities configurable\n\nOriginally based off of http://github.com/stahnma/puppet-module-puppetlabs_yum",
-  "license": "Apache License, Version 2.0",
-  "name": "flakrat-repo_centos",
-  "project_page": "https://github.com/flakrat/repo_centos",
-  "source": "https://github.com/flakrat/repo_centos.git",
-  "summary": "Configures the CentOS 5 or 6 Yum repository config to point to a local mirror",
-  "types": [],
-  "version": "1.0.0"
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "5", "6", "7" ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">=2.7.20 <4.0.0"
+    }
+  ]
 }
