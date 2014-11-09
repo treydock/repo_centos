@@ -13,7 +13,7 @@ class repo_centos::base {
     $baseurl = 'absent'
   } else {
     $mirrorlist = 'absent'
-    $baseurl = "${repo_centos::repourl}/${repo_centos::urlbit}/os/\$basearch/"
+    $baseurl = "${repo_centos::repourl}/\$releasever/os/\$basearch/"
   }
 
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os

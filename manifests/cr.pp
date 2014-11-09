@@ -23,7 +23,7 @@ class repo_centos::cr {
   }
 
   yumrepo { 'centos-cr':
-    baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/cr/\$basearch/",
+    baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
     descr    => 'CentOS-$releasever - CR',
     enabled  => $enabled,
     gpgcheck => '1',

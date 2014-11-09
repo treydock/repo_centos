@@ -20,13 +20,13 @@ shared_examples_for 'repo_centos::updates' do |ver|
   context 'when enable_mirrorlist => false"' do
     let(:params) {{ :enable_mirrorlist => false }}
 
-    it { should contain_yumrepo('centos-updates').with_baseurl("http://mirror.centos.org/centos/#{ver}/updates/$basearch/") }
+    it { should contain_yumrepo('centos-updates').with_baseurl("http://mirror.centos.org/centos/\$releasever/updates/$basearch/") }
   end
 
   context 'when repourl => "http://foo.example.com/centos"' do
     let(:params) {{ :enable_mirrorlist => false, :repourl => 'http://foo.example.com/centos' }}
 
-    it { should contain_yumrepo('centos-updates').with_baseurl("http://foo.example.com/centos/#{ver}/updates/$basearch/") }
+    it { should contain_yumrepo('centos-updates').with_baseurl("http://foo.example.com/centos/\$releasever/updates/$basearch/") }
   end
 
   context 'when enable_updates => false' do

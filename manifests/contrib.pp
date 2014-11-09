@@ -14,7 +14,7 @@ class repo_centos::contrib {
     $baseurl = 'absent'
   } else {
     $mirrorlist = 'absent'
-    $baseurl = "${repo_centos::repourl}/${repo_centos::urlbit}/contrib/\$basearch/"
+    $baseurl = "${repo_centos::repourl}/\$releasever/contrib/\$basearch/"
   }
 
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib
