@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'repo_centos' do
-  context 'when operatingsystemmajrelease => 7, os_maj_version => undef, and operatingsystemrelease => undef' do
+  context 'when operatingsystemmajrelease => 7' do
     let :facts do
       {
         :operatingsystem            => 'CentOS',

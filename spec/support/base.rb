@@ -3,18 +3,30 @@ shared_examples_for 'repo_centos::base' do |ver|
 
   it do
     should contain_yumrepo('centos-base').with({
-      :baseurl  => "http://mirror.centos.org/centos/#{ver}/os/x86_64",
-      :descr    => "CentOS #{ver} OS Base - x86_64",
+      :mirrorlist => "http://mirrorlist.centos.org/?release=\$releasever&arch=\$basearch&repo=os&infra=$infra",
+      :descr    => "CentOS-$releasever - Base",
       :enabled  => '1',
       :gpgcheck => '1',
       :gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{ver}",
     })
   end
 
-  context 'when repourl => "http://foo.example.com/centos"' do
-    let(:params) {{ :repourl => 'http://foo.example.com/centos' }}
+  context 'when mirrorlisturl => "http://foo.example.com/centos"' do
+    let(:params) {{ :mirrorlisturl => 'http://foo.example.com/centos' }}
 
-    it { should contain_yumrepo('centos-base').with_baseurl("http://foo.example.com/centos/#{ver}/os/x86_64") }
+    it { should contain_yumrepo('centos-base').with_mirrorlist("http://foo.example.com/centos/?release=\$releasever&arch=\$basearch&repo=os&infra=$infra") }
+  end
+
+  context 'when enable_mirrorlist => false"' do
+    let(:params) {{ :enable_mirrorlist => false }}
+
+    it { should contain_yumrepo('centos-base').with_baseurl("http://mirror.centos.org/centos/#{ver}/os/$basearch/") }
+  end
+
+  context 'when repourl => "http://foo.example.com/centos"' do
+    let(:params) {{ :enable_mirrorlist => false, :repourl => 'http://foo.example.com/centos' }}
+
+    it { should contain_yumrepo('centos-base').with_baseurl("http://foo.example.com/centos/#{ver}/os/$basearch/") }
   end
 
   context 'when enable_base => false' do

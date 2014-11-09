@@ -30,8 +30,8 @@ class repo_centos::scl {
     }
 
     yumrepo { 'centos-scl':
-      baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/SCL/${::architecture}",
-      descr    => "${::operatingsystem} ${repo_centos::releasever} The Software Collection - ${::architecture}",
+      baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/SCL/\$basearch/",
+      descr    => 'CentOS-$releasever - SCL',
       enabled  => $enabled,
       gpgcheck => '1',
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",

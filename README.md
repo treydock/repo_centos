@@ -45,9 +45,17 @@ Other repositories that will setup but disabled
 
 #### Parameters for `repo_centos` class
 
+#####`enable_mirrorlist`
+
+Boolean to decide if the yumrepo mirrorlist or the baseurl are used (defaults to true).
+
 #####`repourl`
 
 The base repo URL.  Defaults to 'http://mirror.centos.org/centos'
+
+#####`mirrorlisturl`
+
+The mirrorlist URL.  Defaults to 'http://mirrorlist.centos.org'
 
 #####`enable_base`
 
@@ -81,7 +89,7 @@ Boolean to decide if the CentOS Updates Repo should be enabled (defaults to true
 
 ## Compatibility
 
-  * This was tested on CentOS 5 and 6 clients
+  * This was tested on CentOS 5, 6, and 7 clients
   * Tested using Puppet 3.4.2
 
 ## Development

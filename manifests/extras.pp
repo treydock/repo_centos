@@ -14,6 +14,13 @@ class repo_centos::extras {
   } else {
     $enabled = '0'
   }
+  if $repo_centos::enable_mirrorlist {
+    $mirrorlist = "${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=extras${repo_centos::mirrorlist_tail}"
+    $baseurl = 'absent'
+  } else {
+    $mirrorlist = 'absent'
+    $baseurl = "${repo_centos::repourl}/${repo_centos::urlbit}/extras/\$basearch/"
+  }
 
   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras
   #baseurl=http://mirror.centos.org/centos/$releasever/extras/$basearch/
@@ -24,12 +31,13 @@ class repo_centos::extras {
   }
 
   yumrepo { 'centos-extras':
-    baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/extras/${::architecture}",
-    descr    => "${::operatingsystem} ${repo_centos::releasever} Extras - ${::architecture}",
-    enabled  => $enabled,
-    gpgcheck => '1',
-    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
-    #priority => '2',
+    baseurl    => $baseurl,
+    mirrorlist => $mirrorlist,
+    descr      => 'CentOS-$releasever - Extras',
+    enabled    => $enabled,
+    gpgcheck   => '1',
+    gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
+    #priority   => '2',
   }
 
 }
