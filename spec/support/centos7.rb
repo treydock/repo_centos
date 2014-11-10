@@ -6,7 +6,7 @@ shared_examples 'centos7' do
   it { should contain_package('httpd').with_ensure('present') }
 
   it { should have_class_count(12) }
-  it { should have_file_resource_count(9) }
+  it { should have_file_resource_count(7) }
   it { should have_gpg_key_resource_count(2) }
 
   it { should create_class('repo_centos') }
