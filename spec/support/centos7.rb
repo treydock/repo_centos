@@ -35,29 +35,9 @@ shared_examples 'centos7' do
   end
 
   it do
-    should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7').with({
-      :ensure => 'present',
-      :owner  => '0',
-      :group  => '0',
-      :mode   => '0644',
-      :source => 'puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-7',
-    })
-  end
-
-  it do
     should contain_gpg_key('RPM-GPG-KEY-CentOS-Debug-7').with({
       :path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-7',
       :before => 'Anchor[repo_centos::start]',
-    })
-  end
-
-  it do
-    should contain_file('/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-7').with({
-      :ensure => 'present',
-      :owner  => '0',
-      :group  => '0',
-      :mode   => '0644',
-      :source => 'puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-Debug-7',
     })
   end
 

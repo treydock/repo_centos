@@ -125,23 +125,6 @@ class repo_centos (
       path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
       before => Anchor['repo_centos::start'],
     }
-
-    file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}":
-      ensure => present,
-      owner  => 0,
-      group  => 0,
-      mode   => '0644',
-      source => "puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-${releasever}",
-    }
-
-    file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}":
-      ensure => present,
-      owner  => 0,
-      group  => 0,
-      mode   => '0644',
-      source => "puppet:///modules/repo_centos/RPM-GPG-KEY-CentOS-Debug-${releasever}",
-    }
-
   } else {
       notice ("Your operating system ${::operatingsystem} does not need CentOS repositories")
   }
