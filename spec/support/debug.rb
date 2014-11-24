@@ -3,7 +3,7 @@ shared_examples_for 'repo_centos::debug' do |ver|
 
   it do
     should contain_yumrepo('centos-debug').with({
-      :baseurl  => "http://debuginfo.centos.org/#{ver}/x86_64",
+      :baseurl  => "http://debuginfo.centos.org/#{ver}/$basearch/",
       :descr    => "CentOS-#{ver} - Debuginfo",
       :enabled  => '0',
       :gpgcheck => '1',
@@ -14,7 +14,7 @@ shared_examples_for 'repo_centos::debug' do |ver|
   context 'when repourl => "http://foo.example.com/centos-debug"' do
     let(:params) {{ :debug_repourl => 'http://foo.example.com/centos-debug' }}
 
-    it { should contain_yumrepo('centos-debug').with_baseurl("http://foo.example.com/centos-debug/#{ver}/x86_64") }
+    it { should contain_yumrepo('centos-debug').with_baseurl("http://foo.example.com/centos-debug/#{ver}/$basearch/") }
   end
 
   context 'when enable_debug => true' do

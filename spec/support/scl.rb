@@ -4,8 +4,8 @@ shared_examples_for 'repo_centos::scl' do |ver|
   if ver == '6'
     it do
       should contain_yumrepo('centos-scl').with({
-        :baseurl  => "http://mirror.centos.org/centos/#{ver}/SCL/x86_64",
-        :descr    => "CentOS #{ver} The Software Collection - x86_64",
+        :baseurl  => "http://mirror.centos.org/centos/\$releasever/SCL/$basearch/",
+        :descr    => "CentOS-$releasever - SCL",
         :enabled  => '0',
         :gpgcheck => '1',
         :gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{ver}",
@@ -15,7 +15,7 @@ shared_examples_for 'repo_centos::scl' do |ver|
     context 'when repourl => "http://foo.example.com/centos"' do
       let(:params) {{ :repourl => 'http://foo.example.com/centos' }}
 
-      it { should contain_yumrepo('centos-scl').with_baseurl("http://foo.example.com/centos/#{ver}/SCL/x86_64") }
+      it { should contain_yumrepo('centos-scl').with_baseurl("http://foo.example.com/centos/\$releasever/SCL/$basearch/") }
     end
 
     context 'when enable_scl => true' do

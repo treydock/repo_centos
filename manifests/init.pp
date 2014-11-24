@@ -4,8 +4,15 @@
 #
 # === Parameters:
 #
+# $enable_mirrorlist::             Enables the yumrepo mirrorlist parameter and
+#                                  disables the baseurl
+#                                  type:boolean
+#
 # $repourl::                       The base repo URL, if not specified defaults to the
 #                                  CentOS Mirror
+#
+# $mirrorlisturl::                 The mirrorlist repo URL, if not specified
+#                                  defaults to the CentOS Mirror
 #
 # $enable_base::                   Enable the CentOS Base Repo
 #                                  type:boolean
@@ -46,9 +53,11 @@
 #   repo_centos::enable_scl: true
 #
 class repo_centos (
+    $enable_mirrorlist           = $repo_centos::params::enable_mirrorlist,
     $repourl                     = $repo_centos::params::repourl,
     $debug_repourl               = $repo_centos::params::debug_repourl,
     $source_repourl              = $repo_centos::params::source_repourl,
+    $mirrorlisturl               = $repo_centos::params::mirrorlisturl,
     $enable_base                 = $repo_centos::params::enable_base,
     $enable_contrib              = $repo_centos::params::enable_contrib,
     $enable_cr                   = $repo_centos::params::enable_cr,
@@ -69,9 +78,11 @@ class repo_centos (
     $ensure_debug                = $repo_centos::params::ensure_debug,
   ) inherits repo_centos::params {
 
+  validate_bool($enable_mirrorlist)
   validate_string($repourl)
   validate_string($debug_repourl)
   validate_string($source_repourl)
+  validate_string($mirrorlisturl)
   validate_bool($enable_base)
   validate_bool($enable_contrib)
   validate_bool($enable_cr)

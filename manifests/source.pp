@@ -16,16 +16,16 @@ class repo_centos::source {
   }
 
   yumrepo { 'centos-base-source':
-    baseurl  => "${repo_centos::source_repourl}/${::operatingsystemrelease}/os/Source",
-    descr    => "CentOS-${::operatingsystemrelease} - Base Source",
+    baseurl  => "${repo_centos::source_repourl}/\$releasever/os/Source/",
+    descr    => 'CentOS-$releasever - Base Sources',
     enabled  => $enabled,
     gpgcheck => '1',
     gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::repo_centos::releasever}",
   }
 
   yumrepo { 'centos-updates-source':
-    baseurl  => "${repo_centos::source_repourl}/${::operatingsystemrelease}/updates/Source",
-    descr    => "CentOS-${::operatingsystemrelease} - Updates Source",
+    baseurl  => "${repo_centos::source_repourl}/\$releasever/updates/Source/",
+    descr    => 'CentOS-$releasever - Updates Sources',
     enabled  => $enabled,
     gpgcheck => '1',
     gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::repo_centos::releasever}",

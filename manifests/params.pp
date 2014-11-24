@@ -9,9 +9,11 @@ class repo_centos::params {
     $releasever = inline_template('<%= @operatingsystemrelease.split(".").first %>')
   }
 
+  $enable_mirrorlist           = true
   $repourl                     = 'http://mirror.centos.org/centos'
   $debug_repourl               = 'http://debuginfo.centos.org'
-  $source_repourl              = 'http://vault.centos.org'
+  $source_repourl              = 'http://vault.centos.org/centos'
+  $mirrorlisturl               = 'http://mirrorlist.centos.org'
   $enable_base                 = true
   $enable_contrib              = false
   $enable_cr                   = false
@@ -22,7 +24,6 @@ class repo_centos::params {
   $enable_source               = false
   $enable_debug                = false
   $ostype                      = 'CentOS'
-  $urlbit                      = $releasever
   $ensure_base                 = 'present'
   $ensure_contrib              = 'present'
   $ensure_cr                   = 'present'
@@ -32,4 +33,8 @@ class repo_centos::params {
   $ensure_updates              = 'present'
   $ensure_source               = 'present'
   $ensure_debug                = 'present'
+
+  if $releasever >= '6' {
+    $mirrorlist_tail           = '&infra=$infra'
+  }
 }
