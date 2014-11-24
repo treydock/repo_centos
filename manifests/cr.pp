@@ -23,8 +23,8 @@ class repo_centos::cr {
   }
 
   yumrepo { 'centos-cr':
-    baseurl  => "${repo_centos::repourl}/${repo_centos::urlbit}/cr/${::architecture}",
-    descr    => "${::operatingsystem} ${repo_centos::releasever} Continuous Release - ${::architecture}",
+    baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
+    descr    => 'CentOS-$releasever - CR',
     enabled  => $enabled,
     gpgcheck => '1',
     gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
