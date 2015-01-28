@@ -25,16 +25,29 @@ class repo_centos::params {
   $enable_debug                = false
   $ostype                      = 'CentOS'
   $ensure_base                 = 'present'
-  $ensure_contrib              = 'present'
   $ensure_cr                   = 'present'
   $ensure_extras               = 'present'
   $ensure_plus                 = 'present'
-  $ensure_scl                  = 'present'
   $ensure_updates              = 'present'
   $ensure_source               = 'present'
   $ensure_debug                = 'present'
 
-  if $releasever >= '6' {
-    $mirrorlist_tail           = '&infra=$infra'
+  case $releasever {
+    '7': {
+      $ensure_contrib          = 'absent'
+      $ensure_scl              = 'absent'
+      $mirrorlist_tail         = '&infra=$infra'
+    }
+    '6': {
+      $ensure_contrib          = 'present'
+      $ensure_scl              = 'present'
+      $mirrorlist_tail         = '&infra=$infra'
+    }
+    '5': {
+      $ensure_contrib          = 'present'
+      $ensure_scl              = 'absent'
+      $mirrorlist_tail         = ''
+    }
+    default: { }
   }
 }

@@ -1,6 +1,12 @@
 shared_examples_for 'repo_centos::contrib' do |ver|
   it { should create_class('repo_centos::contrib') }
 
+  if ver == '7'
+    default_ensure = 'absent'
+  else
+    default_ensure = 'present'
+  end
+
   it do
     should contain_yumrepo('centos-contrib').with({
       :mirrorlist => "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib&infra=$infra",
@@ -36,7 +42,7 @@ shared_examples_for 'repo_centos::contrib' do |ver|
   end
 
   if Gem::Version.new(PUPPET_VERSION) >= Gem::Version.new('3.5.0')
-    it { should contain_yumrepo('centos-contrib').with_ensure('present') }
+    it { should contain_yumrepo('centos-contrib').with_ensure(default_ensure) }
 
     context 'when ensure_contrib => "absent"' do
       let(:params) {{ :ensure_contrib => "absent" }}
