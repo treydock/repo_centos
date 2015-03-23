@@ -65,6 +65,7 @@ class repo_centos (
     $enable_plus                 = $repo_centos::params::enable_plus,
     $enable_scl                  = $repo_centos::params::enable_scl,
     $enable_updates              = $repo_centos::params::enable_updates,
+    $enable_fasttrack            = $repo_centos::params::enable_fasttrack,
     $enable_source               = $repo_centos::params::enable_source,
     $enable_debug                = $repo_centos::params::enable_debug,
     $ensure_base                 = $repo_centos::params::ensure_base,
@@ -74,6 +75,7 @@ class repo_centos (
     $ensure_plus                 = $repo_centos::params::ensure_plus,
     $ensure_scl                  = $repo_centos::params::ensure_scl,
     $ensure_updates              = $repo_centos::params::ensure_updates,
+    $ensure_fasttrack            = $repo_centos::params::ensure_fasttrack,
     $ensure_source               = $repo_centos::params::ensure_source,
     $ensure_debug                = $repo_centos::params::ensure_debug,
   ) inherits repo_centos::params {
@@ -90,6 +92,7 @@ class repo_centos (
   validate_bool($enable_plus)
   validate_bool($enable_scl)
   validate_bool($enable_updates)
+  validate_bool($enable_fasttrack)
   validate_bool($enable_source)
   validate_bool($enable_debug)
 
@@ -111,6 +114,7 @@ class repo_centos (
     include repo_centos::plus
     include repo_centos::scl
     include repo_centos::updates
+    include repo_centos::fasttrack
     include repo_centos::source
     include repo_centos::debug
 
@@ -122,6 +126,7 @@ class repo_centos (
     Class['repo_centos::plus']->
     Class['repo_centos::scl']->
     Class['repo_centos::updates']->
+    Class['repo_centos::fasttrack']->
     Class['repo_centos::source']->
     Class['repo_centos::debug']->
     anchor { 'repo_centos::end': }->

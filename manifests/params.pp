@@ -21,6 +21,7 @@ class repo_centos::params {
   $enable_plus                 = false
   $enable_scl                  = false
   $enable_updates              = true
+  $enable_fasttrack            = false
   $enable_source               = false
   $enable_debug                = false
   $ostype                      = 'CentOS'
@@ -29,6 +30,7 @@ class repo_centos::params {
   $ensure_extras               = 'present'
   $ensure_plus                 = 'present'
   $ensure_updates              = 'present'
+  $ensure_fasttrack            = 'present'
   $ensure_source               = 'present'
   $ensure_debug                = 'present'
 

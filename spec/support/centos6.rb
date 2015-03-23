@@ -5,8 +5,8 @@ shared_examples 'centos6' do
 
   it { should contain_package('httpd').with_ensure('present') }
 
-  it { should have_class_count(12) }
-  it { should have_file_resource_count(7) }
+  it { should have_class_count(13) }
+  it { should have_file_resource_count(8) }
   it { should have_gpg_key_resource_count(2) }
 
   it { should create_class('repo_centos') }
@@ -22,7 +22,8 @@ shared_examples 'centos6' do
   it { should contain_class('repo_centos::extras').that_comes_before('Class[repo_centos::plus]') }
   it { should contain_class('repo_centos::plus').that_comes_before('Class[repo_centos::scl]') }
   it { should contain_class('repo_centos::scl').that_comes_before('Class[repo_centos::updates]') }
-  it { should contain_class('repo_centos::updates').that_comes_before('Class[repo_centos::source]') }
+  it { should contain_class('repo_centos::updates').that_comes_before('Class[repo_centos::fasttrack]') }
+  it { should contain_class('repo_centos::fasttrack').that_comes_before('Class[repo_centos::source]') }
   it { should contain_class('repo_centos::source').that_comes_before('Class[repo_centos::debug]') }
   it { should contain_class('repo_centos::debug').that_comes_before('Anchor[repo_centos::end]') }
   it { should contain_anchor('repo_centos::end').that_comes_before('Package[httpd]') }
@@ -49,6 +50,7 @@ shared_examples 'centos6' do
   it_behaves_like 'repo_centos::plus', '6'
   it_behaves_like 'repo_centos::scl', '6'
   it_behaves_like 'repo_centos::updates', '6'
+  it_behaves_like 'repo_centos::fasttrack', '6'
   it_behaves_like 'repo_centos::source', '6'
   it_behaves_like 'repo_centos::debug', '6'
 end

@@ -63,6 +63,7 @@ describe 'repo_centos' do
     it { should_not contain_class('repo_centos::plus') }
     it { should_not contain_class('repo_centos::scl') }
     it { should_not contain_class('repo_centos::updates') }
+    it { should_not contain_class('repo_centos::fasttrack') }
     it { should_not contain_class('repo_centos::source') }
     it { should_not contain_class('repo_centos::debug') }
   end
