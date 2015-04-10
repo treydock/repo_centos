@@ -7,7 +7,7 @@
   "source": "https://github.com/treydock/repo_centos.git",
   "project_page": "https://github.com/treydock/repo_centos",
   "issues_url": "https://github.com/treydock/repo_centos/issues",
-  "tags": [ "repository", "RPM", "yum" ],
+  "tags": [ "repository", "repo", "RPM", "yum" ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",

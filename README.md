@@ -3,7 +3,12 @@
 [![Puppet Forge](http://img.shields.io/puppetforge/v/treydock/repo_centos.svg)](https://forge.puppetlabs.com/treydock/repo_centos)
 [![Build Status](https://travis-ci.org/treydock/repo_centos.svg?branch=master)](https://travis-ci.org/treydock/repo_centos)
 
-Configure repositories for CentOS to point to custom repo
+####Table of Contents
+
+1. [Overview](#overview)
+2. [Usage - Configuration options](#usage)
+3. [Reference - Parameter and detailed reference to all options](#reference)
+4. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
@@ -11,13 +16,19 @@ This is a puppet module that manages the CentOS repositories on CentOS clients.
 
 Originally based off of https://github.com/flakrat/repo_centos
 
+**NOTE**: The current behavior of this module is to remove the repo files shipped with CentOS and to define all CentOS repos using names that differ from the stock operating system.  The `4.x` release will remove this behavior.
+
 ## Usage
 
 ### Class: `repo_centos`
 
-By default, the module configures the repo files to use http://mirror.centos.org/centos as the package source. A custom repository can be used by setting the `repourl` parameter and disabling the use of mirrorlist by setting `enable_mirrorlist` to `false` (also demonstrates how to enable the SCL repo):
+By default, the module configures the repo files to use http://mirror.centos.org/centos as the package source.
 
-    class {'repo_centos':
+    class { 'repo_centos': }
+
+A custom repository can be used by setting the `repourl` parameter and disabling the use of mirrorlist by setting `enable_mirrorlist` to `false` (also demonstrates how to enable the SCL repo):
+
+    class { 'repo_centos':
       repourl           => 'http://myrepo/centos',
       enable_mirrorlist => false,
       enable_scl        => true,
@@ -37,16 +48,42 @@ The following Repos will be setup and enabled by default:
 
 Other repositories that will setup but disabled
 
-  * centos-contrib
+  * centos-contrib **CentOS 5 and CentOS 6 only**
   * centos-cr
   * centos-fasttrack
   * centos-plus
-  * centos-scl
+  * centos-scl **CentOS 6 only**
   * centos-base-source
   * centos-updates-source
   * centos-debug
 
-#### Parameters for `repo_centos` class
+
+## Reference
+
+### Classes
+
+#### Public classes
+
+* `repo_centos`: Configs all the managed CentOS yumrepo resources.
+
+#### Private classes
+
+* `repo_centos::base`: Configures base yumrepo.
+* `repo_centos::clean`: Removes the stock yum repo files.
+* `repo_centos::contrib`: Configures contrib yumrepo.
+* `repo_centos::cr`: Configures cr yumrepo.
+* `repo_centos::debug`: Configures debug yumrepo.
+* `repo_centos::extras`: Configures extras yumrepo.
+* `repo_centos::fasttrack`: Configures fasttrack yumrepo.
+* `repo_centos::params`: Defines default parameter values.
+* `repo_centos::plus`: Configures centosplus yumrepo.
+* `repo_centos::scl`: Configures scl yumrepo.
+* `repo_centos::source`: Configures source yumrepos.
+* `repo_centos::updates`: Configures updates yumrepo.
+
+### Parameters
+
+#### repo_centos
 
 #####`enable_mirrorlist`
 
@@ -110,11 +147,6 @@ Boolean to decide if the CentOS source repos should be enabled (defaults to `fal
 
 Boolean to decide if the CentOS debug repo should be enabled (defaults to `false`).
 
-## Compatibility
-
-  * This was tested on CentOS 5, 6, and 7 clients
-  * Tested using Puppet 3.6.2
-
 ## Development
 
 ### Testing
@@ -135,14 +167,3 @@ Run the tests from root of the source code:
 You can also run acceptance tests:
 
     bundle exec rake beaker
-
-## TODO
-
-* Add CentOS-Media.repo contents
-* Add CentOS-Debuginfo.repo contents
-* Add CentOS-Vault.repo contents
-* Make yum priorities configurable
-
-## License
-
-Apache Software License 2.0

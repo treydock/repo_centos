@@ -26,7 +26,6 @@ describe 'repo_centos class' do
 
     # Disabled by default
     [
-      'centos-contrib',
       'centos-cr',
       'centos-plus',
       'centos-base-source',
@@ -39,8 +38,16 @@ describe 'repo_centos class' do
       end
     end
 
-    # centos-scl only tested when EL 6 or greater
-    if fact('operatingsystemrelease').to_i >= 6.0
+    # centos-contrib only on EL 5 and 6
+    if fact('operatingsystemmajrelease') <= '6'
+      describe yumrepo('centos-contrib',) do
+        it { should exist }
+        it { should_not be_enabled }
+      end
+    end
+
+    # centos-scl only tested when EL 6
+    if fact('operatingsystemmajrelease') == '6'
       describe yumrepo('centos-scl') do
         it { should exist }
         it { should_not be_enabled }

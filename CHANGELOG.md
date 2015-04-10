@@ -1,12 +1,22 @@
-## flakrat-repo_centos changelog
+## treydock-repo_centos changelog
 
-Release notes for the flakrat-repo_centos module.
+Release notes for the treydock-repo_centos module.
 
-------------------------------------------
+#### 3.0.0 - 2015/04/10
 
-#### 2.0.1 - 2014/04/10
+This release is the first under new author that contains backwards incompatible changes.
 
-Bug fix for beaker acceptance tests.
+Backwards incompatible changes:
+
+* By default mirrorlist is now set for repos but can be overridden using `enable_mirrorlist` parameter.  Default mirrorlist values are that of stock CentOS repo files shipped with the operating system
+
+Features:
+
+* Manage fasttrack repo
+* Manage source repos
+* Manage debuginfo repo
+* Remove management of the contents for CentOS GPG keys
+* Updates to development dependencies, rake tasks and travis-ci test coverage
 
 ------------------------------------------
 
