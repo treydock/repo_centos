@@ -9,9 +9,6 @@ end
 desc "Run syntax, lint and spec tasks."
 task :test => [:syntax, :lint, :spec]
 
-desc "Run syntax, lint and spec_standalone tasks."
-task :test_standalone => [:spec_prep, :syntax, :lint, :spec_standalone]
-
 exclude_paths = [
   "pkg/**/*",
   "vendor/**/*",

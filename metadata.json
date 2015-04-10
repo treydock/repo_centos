@@ -1,37 +1,23 @@
 {
-  "name": "flakrat-repo_centos",
-  "version": "2.0.1",
-  "author": "flakrat",
+  "name": "treydock-repo_centos",
+  "version": "3.0.0",
+  "author": "treydock",
+  "license": "Apache-2.0",
   "summary": "Manage the CentOS YUM repositories on CentOS clients.",
-  "license": "Apache License, Version 2.0",
-  "project_page": "https://github.com/flakrat/repo_centos",
-  "issues_url": "https://github.com/flakrat/repo_centos/issues",
-  "source": "https://github.com/flakrat/repo_centos.git",
-  "tags": [ "CentOS", "repository", "RPM", "yum" ],
+  "source": "https://github.com/treydock/repo_centos.git",
+  "project_page": "https://github.com/treydock/repo_centos",
+  "issues_url": "https://github.com/treydock/repo_centos/issues",
+  "tags": [ "repository", "RPM", "yum" ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">=2.0.0"
-    },
-    {
-      "name": "treydock/gpg_key",
-      "version_requirement": ">=0.0.3"
+      "version_requirement": ">=2.0.0 <5.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [ "5", "6", "7" ]
-    }
-  ],
-  "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": "3.x"
-    },
-    {
-      "name": "puppet",
-      "version_requirement": ">=2.7.20 <4.0.0"
     }
   ]
 }
