@@ -2,6 +2,10 @@
 
 Release notes for the treydock-repo_centos module.
 
+#### 3.0.1 - 2015/04/10
+
+* Add treydock/gpg_key module dependency back as it was accidentally removed
+
 #### 3.0.0 - 2015/04/10
 
 This release is the first under new author that contains backwards incompatible changes.
