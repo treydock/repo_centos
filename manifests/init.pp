@@ -1,84 +1,25 @@
-# == Class: repo_centos
-#
-# Configure the CentOS 5 or 6 repositories and import GPG keys
-#
-# === Parameters:
-#
-# $enable_mirrorlist::             Enables the yumrepo mirrorlist parameter and
-#                                  disables the baseurl
-#                                  type:boolean
-#
-# $repourl::                       The base repo URL, if not specified defaults to the
-#                                  CentOS Mirror
-#
-# $mirrorlisturl::                 The mirrorlist repo URL, if not specified
-#                                  defaults to the CentOS Mirror
-#
-# $enable_base::                   Enable the CentOS Base Repo
-#                                  type:boolean
-#
-# $enable_contrib::                Enable the CentOS User Contrib Repo
-#                                  type:boolean
-#
-# $enable_cr::                     Enable the CentOS Continuous Release Repo
-#                                  type:boolean
-#
-# $enable_extras::                 Enable the CentOS Extras Repo
-#                                  type:boolean
-#
-# $enable_plus::                   Enable the CentOS Plus Repo
-#                                  type:boolean
-#
-# $enable_scl::                    Enable the CentOS SCL Repo
-#                                  type:boolean
-#
-# $enable_updates::                Enable the CentOS Updates Repo
-#                                  type:boolean
-#
-# === Usage:
-# * Simple usage:
-#
-#  include repo_centos
-#
-# * Advanced usage:
-#
-#   class {'repo_centos':
-#     repourl       => 'http://myrepo/centos',
-#     enable_scl    => true,
-#   }
-#
-# * Alternate usage via hiera YAML:
-#
-#   repo_centos::repourl: 'http://myrepo/centos'
-#   repo_centos::enable_scl: true
-#
+# See README.md for more details.
 class repo_centos (
-    $enable_mirrorlist           = $repo_centos::params::enable_mirrorlist,
-    $repourl                     = $repo_centos::params::repourl,
-    $debug_repourl               = $repo_centos::params::debug_repourl,
-    $source_repourl              = $repo_centos::params::source_repourl,
-    $mirrorlisturl               = $repo_centos::params::mirrorlisturl,
-    $enable_base                 = $repo_centos::params::enable_base,
-    $enable_contrib              = $repo_centos::params::enable_contrib,
-    $enable_cr                   = $repo_centos::params::enable_cr,
-    $enable_extras               = $repo_centos::params::enable_extras,
-    $enable_plus                 = $repo_centos::params::enable_plus,
-    $enable_scl                  = $repo_centos::params::enable_scl,
-    $enable_updates              = $repo_centos::params::enable_updates,
-    $enable_fasttrack            = $repo_centos::params::enable_fasttrack,
-    $enable_source               = $repo_centos::params::enable_source,
-    $enable_debug                = $repo_centos::params::enable_debug,
-    $ensure_base                 = $repo_centos::params::ensure_base,
-    $ensure_contrib              = $repo_centos::params::ensure_contrib,
-    $ensure_cr                   = $repo_centos::params::ensure_cr,
-    $ensure_extras               = $repo_centos::params::ensure_extras,
-    $ensure_plus                 = $repo_centos::params::ensure_plus,
-    $ensure_scl                  = $repo_centos::params::ensure_scl,
-    $ensure_updates              = $repo_centos::params::ensure_updates,
-    $ensure_fasttrack            = $repo_centos::params::ensure_fasttrack,
-    $ensure_source               = $repo_centos::params::ensure_source,
-    $ensure_debug                = $repo_centos::params::ensure_debug,
-  ) inherits repo_centos::params {
+  $enable_mirrorlist           = $repo_centos::params::enable_mirrorlist,
+  $repourl                     = $repo_centos::params::repourl,
+  $debug_repourl               = $repo_centos::params::debug_repourl,
+  $source_repourl              = $repo_centos::params::source_repourl,
+  $mirrorlisturl               = $repo_centos::params::mirrorlisturl,
+  $enable_base                 = $repo_centos::params::enable_base,
+  $enable_contrib              = $repo_centos::params::enable_contrib,
+  $enable_cr                   = $repo_centos::params::enable_cr,
+  $enable_extras               = $repo_centos::params::enable_extras,
+  $enable_plus                 = $repo_centos::params::enable_plus,
+  $enable_scl                  = $repo_centos::params::enable_scl,
+  $enable_updates              = $repo_centos::params::enable_updates,
+  $enable_fasttrack            = $repo_centos::params::enable_fasttrack,
+  $enable_source               = $repo_centos::params::enable_source,
+  $enable_debug                = $repo_centos::params::enable_debug,
+  $ensure_cr                   = undef,
+  $ensure_scl                  = undef,
+  $ensure_source               = $repo_centos::params::ensure_source,
+  $attempt_compatibility_mode  = false,
+) inherits repo_centos::params {
 
   validate_bool($enable_mirrorlist)
   validate_string($repourl)
@@ -96,15 +37,37 @@ class repo_centos (
   validate_bool($enable_source)
   validate_bool($enable_debug)
 
-  if $::operatingsystem == 'CentOS' {
-    $releasever = $repo_centos::params::releasever
-
-    stage { 'repo_centos_clean':
-      before  => Stage['main'],
+  if $ensure_cr {
+    validate_re($ensure_cr, ['^present$', '^absent$'])
+    $_ensure_cr = $ensure_cr
+  } else {
+    if $enable_cr {
+      $_ensure_cr = 'present'
+    } else {
+      $_ensure_cr = $repo_centos::params::ensure_cr
     }
+  }
 
-    class { 'repo_centos::clean':
-      stage => repo_centos_clean,
+  if $ensure_scl {
+    validate_re($ensure_scl, ['^present$', '^absent$'])
+    $_ensure_scl = $ensure_scl
+  } else {
+    if $enable_scl {
+      $_ensure_scl = 'present'
+    } else {
+      $_ensure_scl = $repo_centos::params::ensure_scl
+    }
+  }
+
+  validate_re($ensure_source, ['^present$', '^absent$'])
+
+  validate_bool($attempt_compatibility_mode)
+
+  if $::operatingsystem == 'CentOS' {
+    if versioncmp($::puppetversion, '3.5.0') >= 0 {
+      $support_ensure = true
+    } else {
+      $support_ensure = false
     }
 
     include repo_centos::base
@@ -132,19 +95,15 @@ class repo_centos (
     anchor { 'repo_centos::end': }->
     Package<| |>
 
-    gpg_key { "RPM-GPG-KEY-CentOS-${releasever}":
-      path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${releasever}",
-      before => Anchor['repo_centos::start'],
-    }
-
-    if $releasever != '5' {
-      gpg_key { "RPM-GPG-KEY-CentOS-Debug-${releasever}":
-        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
-        before => Anchor['repo_centos::start'],
-      }
+    if $attempt_compatibility_mode {
+      include repo_centos::compat::start
+      Class['repo_centos::compat::start'] -> Anchor['repo_centos::start']
+      stage { 'repo_centos::compat::end': }
+      Stage['main'] -> Stage['repo_centos::compat::end']
+      class { 'repo_centos::compat::end': stage => 'repo_centos::compat::end' }
     }
   } else {
-      notice ("Your operating system ${::operatingsystem} does not need CentOS repositories")
+      notice("Your operating system ${::operatingsystem} does not need CentOS repositories")
   }
 
 }

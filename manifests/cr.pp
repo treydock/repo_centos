@@ -1,13 +1,8 @@
-# CentOS Continuous Release - The continuous release ( CR )
-# The continuous release  ( CR ) repository contains rpms from the
-# next point release of CentOS, which isnt itself released as yet.
-#
-# Look at http://wiki.centos.org/AdditionalResources/Repositories/CR
-# for more details about how this repository works and what users
-# should expect to see included / excluded
+# Private class.
 class repo_centos::cr {
-
-  include repo_centos
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   if $repo_centos::enable_cr {
     $enabled = '1'
@@ -15,20 +10,17 @@ class repo_centos::cr {
     $enabled = '0'
   }
 
-  #baseurl=http://mirror.centos.org/centos/$releasever/cr/$basearch/
-
-  # Yumrepo ensure only in Puppet >= 3.5.0
-  if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-cr' |> { ensure => $repo_centos::ensure_cr }
-  }
-
-  yumrepo { 'centos-cr':
-    baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
-    descr    => 'CentOS-$releasever - CR',
-    enabled  => $enabled,
-    gpgcheck => '1',
-    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}",
-    #priority => '1',
+  if $repo_centos::_ensure_cr == 'present' {
+    yumrepo { 'cr':
+      baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
+      descr    => 'CentOS-$releasever - CR',
+      enabled  => $enabled,
+      gpgcheck => '1',
+      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+      target   => '/etc/yum.repos.d/CentOS-CR.repo'
+    }
+  } elsif $repo_centos::_ensure_cr == 'absent' and $repo_centos::support_ensure {
+    yumrepo { 'cr': ensure => 'absent' }
   }
 
 }

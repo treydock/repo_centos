@@ -1,8 +1,8 @@
-# CentOS debug - Debuginfo packages
-# This repository is shipped with CentOS and is disabled by default
+# Private class.
 class repo_centos::debug {
-
-  include repo_centos
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   if $repo_centos::enable_debug {
     $enabled = '1'
@@ -10,23 +10,19 @@ class repo_centos::debug {
     $enabled = '0'
   }
 
-  if $repo_centos::releasever != '5' {
-    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${repo_centos::releasever}"
+  if $::operatingsystemmajrelease != '5' {
+    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${::operatingsystemmajrelease}"
   } else {
-    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}"
+    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}"
   }
 
-  # Yumrepo ensure only in Puppet >= 3.5.0
-  if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-debug' |> { ensure => $repo_centos::ensure_debug }
-  }
-
-  yumrepo { 'centos-debug':
-    baseurl  => "${repo_centos::debug_repourl}/${repo_centos::releasever}/\$basearch/",
-    descr    => "CentOS-${repo_centos::releasever} - Debuginfo",
+  yumrepo { 'base-debuginfo':
+    baseurl  => "${repo_centos::debug_repourl}/${::operatingsystemmajrelease}/\$basearch/",
+    descr    => "CentOS-${::operatingsystemmajrelease} - Debuginfo",
     enabled  => $enabled,
     gpgcheck => '1',
     gpgkey   => $_gpgkey,
+    target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
   }
 
 }

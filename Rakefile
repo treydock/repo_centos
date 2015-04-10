@@ -9,6 +9,12 @@ end
 desc "Run syntax, lint and spec tasks."
 task :test => [:syntax, :lint, :spec]
 
+desc 'Run beaker compatibility acceptance tests'
+RSpec::Core::RakeTask.new(:beaker_compat) do |t|
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance_compat'
+end
+
 exclude_paths = [
   "pkg/**/*",
   "vendor/**/*",

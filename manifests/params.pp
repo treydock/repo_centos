@@ -1,13 +1,5 @@
-# Optional parameters in setting up CentOS Yum repository
+# Default parameters in setting up CentOS Yum repository
 class repo_centos::params {
-
-  if $::operatingsystemmajrelease {
-    $releasever = $::operatingsystemmajrelease
-  } elsif $::os_maj_version {
-    $releasever = $::os_maj_version
-  } else {
-    $releasever = inline_template('<%= @operatingsystemrelease.split(".").first %>')
-  }
 
   $enable_mirrorlist           = true
   $repourl                     = 'http://mirror.centos.org/centos'
@@ -24,30 +16,26 @@ class repo_centos::params {
   $enable_fasttrack            = false
   $enable_source               = false
   $enable_debug                = false
-  $ostype                      = 'CentOS'
-  $ensure_base                 = 'present'
-  $ensure_cr                   = 'present'
-  $ensure_extras               = 'present'
-  $ensure_plus                 = 'present'
-  $ensure_updates              = 'present'
-  $ensure_fasttrack            = 'present'
-  $ensure_source               = 'present'
-  $ensure_debug                = 'present'
+  $ensure_scl                  = 'absent'
+  $ensure_source               = 'absent'
 
-  case $releasever {
+  case $::operatingsystemmajrelease {
     '7': {
-      $ensure_contrib          = 'absent'
-      $ensure_scl              = 'absent'
+      $support_contrib         = false
+      $support_scl             = false
+      $ensure_cr               = 'present'
       $mirrorlist_tail         = '&infra=$infra'
     }
     '6': {
-      $ensure_contrib          = 'present'
-      $ensure_scl              = 'present'
+      $support_contrib         = true
+      $support_scl             = true
+      $ensure_cr               = 'absent'
       $mirrorlist_tail         = '&infra=$infra'
     }
     '5': {
-      $ensure_contrib          = 'present'
-      $ensure_scl              = 'absent'
+      $support_contrib         = true
+      $support_scl             = false
+      $ensure_cr               = 'absent'
       $mirrorlist_tail         = ''
     }
     default: { }

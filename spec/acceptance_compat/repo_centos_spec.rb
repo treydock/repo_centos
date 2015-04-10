@@ -67,5 +67,20 @@ describe 'repo_centos class' do
         it { should_not exist }
       end
     end
+
+    # Test files are correctly removed
+    [
+      "/etc/yum.repos.d/centos#{fact('operatingsystemmajrelease')}.repo",
+      "/etc/yum.repos.d/CentOS-Base.repo",
+      "/etc/yum.repos.d/CentOS-Vault.repo",
+      "/etc/yum.repos.d/CentOS-Debuginfo.repo",
+      "/etc/yum.repos.d/CentOS-Media.repo",
+      "/etc/yum.repos.d/CentOS-Sources.repo",
+      "/etc/yum.repos.d/CentOS-SCL.repo",
+    ].each do |repo_file|
+      describe file(repo_file) do
+        it { should_not be_file }
+      end
+    end
   end
 end
