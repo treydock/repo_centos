@@ -13,5 +13,9 @@ class repo_centos::compat::end {
   file { '/etc/yum.repos.d/centos-plus.repo': ensure => 'absent' }
   file { '/etc/yum.repos.d/centos-scl.repo': ensure => 'absent' }
   file { '/etc/yum.repos.d/centos-updates.repo': ensure => 'absent' }
+  if $repo_centos::ensure_source == 'absent' {
+    file { '/etc/yum.repos.d/centos-base-source.repo': ensure => 'absent' }
+    file { '/etc/yum.repos.d/centos-updates-source.repo': ensure => 'absent' }
+  }
 
 }

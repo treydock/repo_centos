@@ -62,7 +62,6 @@ describe 'repo_centos class' do
       if fact('operatingsystemmajrelease') <= '6'
         it { should exist }
         it { should_not be_enabled }
-      end
       else
         it { should_not exist }
       end
