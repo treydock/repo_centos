@@ -37,10 +37,11 @@ describe 'repo_centos' do
 
       context 'when attempt_compatibility_mode => true' do
         let(:params) {{ :attempt_compatibility_mode => true }}
+        it { should contain_stage('repo_centos::compat::start').with_before('Stage[main]') }
         it { should contain_stage('repo_centos::compat::end') }
         it { should contain_stage('main').that_comes_before('Stage[repo_centos::compat::end]') }
+        it { should contain_class('repo_centos::compat::start').with_stage('repo_centos::compat::start') }
         it { should contain_class('repo_centos::compat::end').with_stage('repo_centos::compat::end') }
-        it { should contain_class('repo_centos::compat::start').that_comes_before('Anchor[repo_centos::start]') }
         it_behaves_like 'repo_centos::compat::start'
         it_behaves_like 'repo_centos::compat::end'
       end

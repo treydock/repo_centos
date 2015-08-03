@@ -13,14 +13,6 @@ shared_examples_for 'repo_centos::compat::start' do
     'centos-updates',
   ]
 
-  it do
-    should contain_exec('reinstall centos-release').with({
-      :path     => '/usr/bin:/bin:/usr/sbin:/sbin',
-      :command  => 'yum -y reinstall centos-release || yum -y update centos-release',
-      :creates  => '/etc/yum.repos.d/CentOS-Base.repo',
-    })
-  end
-
   if Gem::Version.new(PUPPET_VERSION) >= Gem::Version.new('3.5.0')
     compat_repos.each do |r|
       it { should contain_yumrepo(r).with_ensure('absent') }
