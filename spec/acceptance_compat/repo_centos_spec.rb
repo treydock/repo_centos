@@ -1,13 +1,35 @@
-require 'spec_helper_acceptance'
+require 'spec_helper_acceptance_compat'
 
 describe 'repo_centos class' do
-  context 'default parameters' do
+  context '3.x' do
     it 'should run successfully' do
       pp =<<-EOS
-        package { 'httpd': ensure => present }
         class { 'repo_centos': }
       EOS
 
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
+    end
+  end
+
+  context '4.x' do
+    it 'should run successfully' do
+      fix_pp =<<-EOS
+        exec { 'reinstall centos-release':
+          path    => '/usr/bin:/bin:/usr/sbin:/sbin',
+          command => 'yum -y reinstall centos-release || yum -y update centos-release',
+          creates => '/etc/yum.repos.d/CentOS-Base.repo',
+        }
+      EOS
+      pp =<<-EOS
+        package { 'httpd': ensure => present }
+        class { 'repo_centos': attempt_compatibility_mode => true }
+      EOS
+
+      proj_root = File.expand_path(File.join(File.dirname(__FILE__), '../..'))
+      puppet_module_install(:source => proj_root, :module_name => 'repo_centos')
+      apply_manifest(fix_pp, :catch_failures => true)
+      apply_manifest(fix_pp, :catch_changes => true)
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
     end
@@ -62,25 +84,30 @@ describe 'repo_centos class' do
       if fact('operatingsystemmajrelease') <= '6'
         it { should exist }
         it { should_not be_enabled }
-      end
       else
         it { should_not exist }
       end
     end
 
-    # Test files are correctly removed
     [
-      "/etc/yum.repos.d/centos#{fact('operatingsystemmajrelease')}.repo",
-      "/etc/yum.repos.d/CentOS-Base.repo",
-      "/etc/yum.repos.d/CentOS-Vault.repo",
-      "/etc/yum.repos.d/CentOS-Debuginfo.repo",
-      "/etc/yum.repos.d/CentOS-Media.repo",
-      "/etc/yum.repos.d/CentOS-Sources.repo",
-      "/etc/yum.repos.d/CentOS-SCL.repo",
-    ].each do |repo_file|
-      describe file(repo_file) do
+      'centos-base',
+      'centos-contrib',
+      'centos-cr',
+      'centos-debug',
+      'centos-extras',
+      'centos-fasttrack',
+      'centos-plus',
+      'centos-scl',
+      'centos-updates',
+    ].each do |r|
+      describe file("/etc/yum.repos.d/#{r}.repo") do
         it { should_not be_file }
       end
+
+      describe yumrepo(r) do
+        it { should_not exist }
+      end
     end
+
   end
 end

@@ -96,10 +96,10 @@ class repo_centos (
     Package<| |>
 
     if $attempt_compatibility_mode {
-      include repo_centos::compat::start
-      Class['repo_centos::compat::start'] -> Anchor['repo_centos::start']
+      stage { 'repo_centos::compat::start': before => Stage['main'] }
       stage { 'repo_centos::compat::end': }
       Stage['main'] -> Stage['repo_centos::compat::end']
+      class { 'repo_centos::compat::start': stage => 'repo_centos::compat::start' }
       class { 'repo_centos::compat::end': stage => 'repo_centos::compat::end' }
     }
   } else {
