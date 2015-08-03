@@ -17,9 +17,9 @@ class repo_centos::cr {
       enabled  => $enabled,
       gpgcheck => '1',
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-      target   => '/etc/yum.repos.d/CentOS-CR.repo'
+      #target   => '/etc/yum.repos.d/CentOS-CR.repo'
     }
-  } elsif $repo_centos::_ensure_cr == 'absent' and $repo_centos::support_ensure {
+  } elsif $repo_centos::_ensure_cr == 'absent' and $repo_centos::_support_ensure {
     yumrepo { 'cr': ensure => 'absent' }
   }
 

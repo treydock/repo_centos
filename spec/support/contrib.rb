@@ -13,7 +13,7 @@ shared_examples_for 'repo_centos::contrib' do |facts|
         :enabled    => '0',
         :gpgcheck   => '1',
         :gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{facts[:operatingsystemmajrelease]}",
-        :target     => '/etc/yum.repos.d/CentOS-Base.repo',
+        #:target     => '/etc/yum.repos.d/CentOS-Base.repo',
       })
     end
 

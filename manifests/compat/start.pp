@@ -4,7 +4,7 @@ class repo_centos::compat::start {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $repo_centos::support_ensure {
+  if $repo_centos::_support_ensure {
     yumrepo { 'centos-base': ensure => 'absent' }
     yumrepo { 'centos-contrib': ensure => 'absent' }
     yumrepo { 'centos-cr': ensure => 'absent' }

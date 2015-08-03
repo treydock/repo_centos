@@ -18,9 +18,9 @@ class repo_centos::scl {
         enabled  => $enabled,
         gpgcheck => '1',
         gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-        target   => '/etc/yum.repos.d/CentOS-SCL.repo',
+        #target   => '/etc/yum.repos.d/CentOS-SCL.repo',
       }
-    } elsif $repo_centos::_ensure_scl == 'absent' and $repo_centos::support_ensure {
+    } elsif $repo_centos::_ensure_scl == 'absent' and $repo_centos::_support_ensure {
       yumrepo { 'scl': ensure => 'absent' }
     }
   }

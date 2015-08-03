@@ -64,10 +64,13 @@ class repo_centos (
   validate_bool($attempt_compatibility_mode)
 
   if $::operatingsystem == 'CentOS' {
+    # Puppet >= 3.5.0 supports yumrepo ensure and target parameter
     if versioncmp($::puppetversion, '3.5.0') >= 0 {
-      $support_ensure = true
+      $_support_ensure = true
+      $_support_target = true
     } else {
-      $support_ensure = false
+      $_support_ensure = false
+      $_support_target = false
     }
 
     include repo_centos::base

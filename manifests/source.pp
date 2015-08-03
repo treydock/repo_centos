@@ -26,7 +26,7 @@ class repo_centos::source {
       gpgcheck => '1',
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
     }
-  } elsif $repo_centos::ensure_source == 'absent' and $repo_centos::support_ensure {
+  } elsif $repo_centos::ensure_source == 'absent' and $repo_centos::_support_ensure {
     yumrepo { 'centos-base-source': ensure => 'absent' }
     yumrepo { 'centos-updates-source': ensure => 'absent' }
   }

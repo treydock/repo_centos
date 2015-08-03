@@ -19,7 +19,7 @@ shared_examples_for 'repo_centos::scl' do |facts|
           :enabled  => '1',
           :gpgcheck => '1',
           :gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{facts[:operatingsystemmajrelease]}",
-          :target   => '/etc/yum.repos.d/CentOS-SCL.repo',
+          #:target   => '/etc/yum.repos.d/CentOS-SCL.repo',
         })
       end
 
@@ -40,7 +40,7 @@ shared_examples_for 'repo_centos::scl' do |facts|
           :enabled  => '0',
           :gpgcheck => '1',
           :gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{facts[:operatingsystemmajrelease]}",
-          :target   => '/etc/yum.repos.d/CentOS-SCL.repo',
+          #:target   => '/etc/yum.repos.d/CentOS-SCL.repo',
         })
       end
     end

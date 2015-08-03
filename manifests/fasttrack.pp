@@ -24,7 +24,7 @@ class repo_centos::fasttrack {
     enabled    => $enabled,
     gpgcheck   => '1',
     gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-    target     => '/etc/yum.repos.d/CentOS-fasttrack.repo',
+    #target     => '/etc/yum.repos.d/CentOS-fasttrack.repo',
   }
 
 }

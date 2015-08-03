@@ -22,7 +22,7 @@ class repo_centos::debug {
     enabled  => $enabled,
     gpgcheck => '1',
     gpgkey   => $_gpgkey,
-    target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
+    #target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
   }
 
 }
