@@ -2,13 +2,33 @@
 
 Release notes for the treydock-repo_centos module.
 
+#### 4.0.0 - TBD
+
+This release is a major refactor of this module to use the repo files shipped with CentOS.
+
+* Rename all yumrepo resources (except source repos) to match the names used by CentOS
+* Do not remove yum repo files that are installed by the OS packages
+* Remove management of CentOS GPG keys
+* The source repos are no longer present by default
+* The SCL repo on CentOS 6 is no longer present by default
+* The CR repo is only present by default for CentOS 7
+* Remove 'ensure' parameters for all repos except cr, scl and source
+* Module requires presence of operatingsystemmajrelease fact
+* Add compat classes to attempt a "smooth" upgrade from 3.x to 4.x of this module
+
+------------------------------------------
+
 #### 3.0.2 - 2015/12/17
 
 * Fix gpgkey used for debug repositories on CentOS 5
 
+------------------------------------------
+
 #### 3.0.1 - 2015/04/10
 
 * Add treydock/gpg_key module dependency back as it was accidentally removed
+
+------------------------------------------
 
 #### 3.0.0 - 2015/04/10
 

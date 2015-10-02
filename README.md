@@ -6,9 +6,10 @@
 ####Table of Contents
 
 1. [Overview](#overview)
-2. [Usage - Configuration options](#usage)
-3. [Reference - Parameter and detailed reference to all options](#reference)
-4. [Development - Guide for contributing to the module](#development)
+2. [Backwards Compatibility - 4.x](#backwards-compatibility)
+3. [Usage - Configuration options](#usage)
+4. [Reference - Parameter and detailed reference to all options](#reference)
+5. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
@@ -16,7 +17,40 @@ This is a puppet module that manages the CentOS repositories on CentOS clients.
 
 Originally based off of https://github.com/flakrat/repo_centos
 
-**NOTE**: The current behavior of this module is to remove the repo files shipped with CentOS and to define all CentOS repos using names that differ from the stock operating system.  The `4.x` release will remove this behavior.
+Default states for each operating system of the repositories managed by this module:
+
+| Repository            | CentOS 5      | CentOS 6      | CentOS 7      |
+|:----------------------|:-------------:|:-------------:|:-------------:|
+| base                  | enabled       | enabled       | enabled       |
+| updates               | enabled       | enabled       | enabled       |
+| extras                | enabled       | enabled       | enabled       |
+| cr                    | absent        | absent        | disabled      |
+| contrib               | disabled      | disabled      | not supported |
+| fasttrack             | disabled      | disabled      | disabled      |
+| plus                  | disabled      | disabled      | disabled      |
+| debug                 | disabled      | disabled      | disabled      |
+| scl                   | not supported | absent        | not supported |
+| centos-base-source    | absent        | absent        | absent        |
+| centos-updates-source | absent        | absent        | absent        |
+
+## Backwards Compatibility
+
+The `4.x` release of this module drastically changes the behavior of this module from previous releases.  The module now attempts to manage the repo files shipped with CentOS and as such extra steps must be taken to ensure a smooth transition from a release prior to `4.x`.  Two things must be done.
+
+1) The original repo files must be re-installed.  Previous versions of this module removed the files.
+2) This module applied with the `attempt_compatibility_mode` parameter set to `true`
+
+Step #1 can not be done during the same Puppet run as #2.  Something like this can be done for #1:
+
+```
+exec { 'reinstall centos-release':
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin',
+  command => 'yum -y reinstall centos-release || yum -y update centos-release',
+  creates => '/etc/yum.repos.d/CentOS-Base.repo',
+}
+```
+
+Tools like mcollective will allow for this exec to be applied to all systems before step #2 is performed.
 
 ## Usage
 
@@ -26,37 +60,37 @@ By default, the module configures the repo files to use http://mirror.centos.org
 
     class { 'repo_centos': }
 
-A custom repository can be used by setting the `repourl` parameter and disabling the use of mirrorlist by setting `enable_mirrorlist` to `false` (also demonstrates how to enable the SCL repo):
+A custom repository can be used by setting the `repourl` parameter and disabling the use of mirrorlist by setting `enable_mirrorlist` to `false`:
 
     class { 'repo_centos':
       repourl           => 'http://myrepo/centos',
       enable_mirrorlist => false,
-      enable_scl        => true,
     }
 
 Alternate usage via hiera YAML:
 
     repo_centos::repourl: 'http://myrepo/centos'
     repo_centos::enable_mirrorlist: false
-    repo_centos::enable_scl: true
 
-The following Repos will be setup and enabled by default:
+To enable SCL (**CentOS 6 only**)
 
-  * centos-base
-  * centos-extras
-  * centos-updates
+    class { 'repo_centos':
+      enable_scl => true,
+    }
 
-Other repositories that will setup but disabled
+To install the SCL repo but leave it disabled (**CentOS 6 only**)
 
-  * centos-contrib **CentOS 5 and CentOS 6 only**
-  * centos-cr
-  * centos-fasttrack
-  * centos-plus
-  * centos-scl **CentOS 6 only**
-  * centos-base-source
-  * centos-updates-source
-  * centos-debug
+    class { 'repo_centos':
+      ensure_scl => 'present',
+    }
 
+The same method of enable/ensure can be used with the CR repo via `enable_cr` and `ensure_cr`.
+
+To install the CentOS base and updates source repos
+
+    class { 'repo_centos':
+      ensure_source => 'present',
+    }
 
 ## Reference
 
@@ -69,7 +103,6 @@ Other repositories that will setup but disabled
 #### Private classes
 
 * `repo_centos::base`: Configures base yumrepo.
-* `repo_centos::clean`: Removes the stock yum repo files.
 * `repo_centos::contrib`: Configures contrib yumrepo.
 * `repo_centos::cr`: Configures cr yumrepo.
 * `repo_centos::debug`: Configures debug yumrepo.
@@ -80,6 +113,8 @@ Other repositories that will setup but disabled
 * `repo_centos::scl`: Configures scl yumrepo.
 * `repo_centos::source`: Configures source yumrepos.
 * `repo_centos::updates`: Configures updates yumrepo.
+* `repo_centos::compat::start`: Removes yumrepo resources previously managed by this module
+* `repo_centos::compat::end`: Removes the repo files previously managed by this module
 
 ### Parameters
 
@@ -129,7 +164,7 @@ Boolean to decide if the CentOS Plus Repo should be enabled (defaults to `false`
 
 Boolean to decide if the CentOS SCL Repo should be enabled (defaults to `false`).
 
-This only affects to CentOS 6 clients.
+This only affects to CentOS 6.
 
 #####`enable_updates`
 
@@ -146,6 +181,24 @@ Boolean to decide if the CentOS source repos should be enabled (defaults to `fal
 #####`enable_debug`
 
 Boolean to decide if the CentOS debug repo should be enabled (defaults to `false`).
+
+#####`ensure_cr`
+
+Ensure parameter for the CR repo (defaults to `undef`).  By default only CentOS 7 has the CR repo present.
+
+#####`ensure_scl`
+
+Ensure parameter for the SCL repo (defaults to `undef`).  By default the repo is absent.
+
+This only affects CentOS 6.
+
+#####`ensure_source`
+
+Ensure parameter for the source repos (defaults to `absent`).
+
+#####`attempt_compatibility_mode`
+
+Boolean to decide if compatibility classes should be included that are intended to help transition to version 4.x of this module (defaults to `false`).
 
 ## Development
 

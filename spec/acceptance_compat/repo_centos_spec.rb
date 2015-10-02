@@ -27,9 +27,9 @@ describe 'repo_centos class' do
       EOS
 
       proj_root = File.expand_path(File.join(File.dirname(__FILE__), '../..'))
-      puppet_module_install(:source => proj_root, :module_name => 'repo_centos')
       apply_manifest(fix_pp, :catch_failures => true)
       apply_manifest(fix_pp, :catch_changes => true)
+      puppet_module_install(:source => proj_root, :module_name => 'repo_centos')
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
     end
