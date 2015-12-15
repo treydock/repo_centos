@@ -1,5 +1,5 @@
 HOSTS:
-  centos-511-x64:
+  centos-5-x64:
     roles:
       - master
     platform: el-5-x86_64

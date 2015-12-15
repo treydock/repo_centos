@@ -1,9 +1,9 @@
 require 'beaker-rspec'
 
-hosts.each do |host|
-  # Install Puppet
-  install_puppet
-end
+dir = File.expand_path(File.dirname(__FILE__))
+Dir["#{dir}/acceptance/shared_examples/*.rb"].sort.each {|f| require f}
+
+install_puppet_agent_on hosts, {}
 
 RSpec.configure do |c|
   # Project root
