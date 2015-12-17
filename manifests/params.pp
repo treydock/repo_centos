@@ -25,18 +25,21 @@ class repo_centos::params {
       $support_scl             = false
       $ensure_cr               = 'present'
       $mirrorlist_tail         = '&infra=$infra'
+      $debuginfo_gpgkey        = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${::operatingsystemmajrelease}"
     }
     '6': {
       $support_contrib         = true
       $support_scl             = true
       $ensure_cr               = 'absent'
       $mirrorlist_tail         = '&infra=$infra'
+      $debuginfo_gpgkey        = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${::operatingsystemmajrelease}"
     }
     '5': {
       $support_contrib         = true
       $support_scl             = false
       $ensure_cr               = 'absent'
       $mirrorlist_tail         = ''
+      $debuginfo_gpgkey        = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}"
     }
     default: { }
   }

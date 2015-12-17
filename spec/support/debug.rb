@@ -1,6 +1,12 @@
 shared_examples_for 'repo_centos::debug' do |facts|
   it { should create_class('repo_centos::debug') }
 
+  if facts[:operatingsystemmajrelease] == '5'
+    let(:gpgkey) { "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-#{facts[:operatingsystemmajrelease]}" }
+  else
+    let(:gpgkey) { "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-#{facts[:operatingsystemmajrelease]}" }
+  end
+
   it do
     should contain_yumrepo('base-debuginfo').only_with({
       :name     => 'base-debuginfo',
@@ -8,7 +14,7 @@ shared_examples_for 'repo_centos::debug' do |facts|
       :descr    => "CentOS-#{facts[:operatingsystemmajrelease]} - Debuginfo",
       :enabled  => '0',
       :gpgcheck => '1',
-      :gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-#{facts[:operatingsystemmajrelease]}",
+      :gpgkey   => gpgkey,
       #:target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
     })
   end

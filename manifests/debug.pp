@@ -10,18 +10,12 @@ class repo_centos::debug {
     $enabled = '0'
   }
 
-  if $::operatingsystemmajrelease != '5' {
-    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${::operatingsystemmajrelease}"
-  } else {
-    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}"
-  }
-
   yumrepo { 'base-debuginfo':
     baseurl  => "${repo_centos::debug_repourl}/${::operatingsystemmajrelease}/\$basearch/",
     descr    => "CentOS-${::operatingsystemmajrelease} - Debuginfo",
     enabled  => $enabled,
     gpgcheck => '1',
-    gpgkey   => $_gpgkey,
+    gpgkey   => $repo_centos::debuginfo_gpgkey,
     #target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
   }
 
