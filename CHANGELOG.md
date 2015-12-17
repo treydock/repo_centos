@@ -2,6 +2,10 @@
 
 Release notes for the treydock-repo_centos module.
 
+#### 3.0.2 - 2015/12/17
+
+* Fix gpgkey used for debug repositories on CentOS 5
+
 #### 3.0.1 - 2015/04/10
 
 * Add treydock/gpg_key module dependency back as it was accidentally removed

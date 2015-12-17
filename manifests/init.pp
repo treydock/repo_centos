@@ -137,9 +137,11 @@ class repo_centos (
       before => Anchor['repo_centos::start'],
     }
 
-    gpg_key { "RPM-GPG-KEY-CentOS-Debug-${releasever}":
-      path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
-      before => Anchor['repo_centos::start'],
+    if $releasever != '5' {
+      gpg_key { "RPM-GPG-KEY-CentOS-Debug-${releasever}":
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${releasever}",
+        before => Anchor['repo_centos::start'],
+      }
     }
   } else {
       notice ("Your operating system ${::operatingsystem} does not need CentOS repositories")

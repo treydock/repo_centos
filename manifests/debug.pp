@@ -10,6 +10,12 @@ class repo_centos::debug {
     $enabled = '0'
   }
 
+  if $repo_centos::releasever != '5' {
+    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${repo_centos::releasever}"
+  } else {
+    $_gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${repo_centos::releasever}"
+  }
+
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
     Yumrepo <| title == 'centos-debug' |> { ensure => $repo_centos::ensure_debug }
@@ -20,7 +26,7 @@ class repo_centos::debug {
     descr    => "CentOS-${repo_centos::releasever} - Debuginfo",
     enabled  => $enabled,
     gpgcheck => '1',
-    gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-${repo_centos::releasever}",
+    gpgkey   => $_gpgkey,
   }
 
 }
