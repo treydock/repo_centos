@@ -45,7 +45,7 @@ Step #1 can not be done during the same Puppet run as #2.  Something like this c
 ```
 exec { 'reinstall centos-release':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin',
-  command => 'yum -y reinstall centos-release || yum -y update centos-release',
+  command => 'yum -y reinstall centos-release ; [ -f /etc/yum.repos.d/CentOS-Base.repo ] || yum -y update centos-release',
   creates => '/etc/yum.repos.d/CentOS-Base.repo',
 }
 ```
