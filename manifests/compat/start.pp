@@ -4,12 +4,6 @@ class repo_centos::compat::start {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  exec { 'reinstall centos-release':
-    path    => '/usr/bin:/bin:/usr/sbin:/sbin',
-    command => 'yum -y reinstall centos-release ; [ -f /etc/yum.repos.d/CentOS-Base.repo ] || yum -y update centos-release',
-    creates => '/etc/yum.repos.d/CentOS-Base.repo',
-  }
-
   if $repo_centos::_support_ensure {
     yumrepo { 'centos-base': ensure => 'absent' }
     yumrepo { 'centos-contrib': ensure => 'absent' }
