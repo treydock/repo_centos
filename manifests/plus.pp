@@ -10,21 +10,25 @@ class repo_centos::plus {
     $enabled = '0'
   }
   if $repo_centos::enable_mirrorlist {
-    $mirrorlist = "${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=centosplus${repo_centos::mirrorlist_tail}"
-    $baseurl    = 'absent'
+    $mirrorlist = "set mirrorlist '${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=centosplus${repo_centos::mirrorlist_tail}'"
+    $baseurl    = 'rm baseurl'
   } else {
-    $mirrorlist = 'absent'
-    $baseurl    = "${repo_centos::repourl}/\$releasever/centosplus/\$basearch/"
+    $mirrorlist = 'rm mirrorlist'
+    $baseurl    = "set baseurl '${repo_centos::repourl}/\$releasever/centosplus/\$basearch/'"
   }
 
-  yumrepo { 'centosplus':
-    baseurl    => $baseurl,
-    mirrorlist => $mirrorlist,
-    descr      => 'CentOS-$releasever - Plus',
-    enabled    => $enabled,
-    gpgcheck   => '1',
-    gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-    #target     => '/etc/yum.repos.d/CentOS-Base.repo',
+  augeas { 'centos-centosplus':
+    context => '/files/etc/yum.repos.d/CentOS-Base.repo/centosplus',
+    changes => [
+      "set name 'CentOS-\$releasever - Plus'",
+      $mirrorlist,
+      $baseurl,
+      "set enabled ${enabled}",
+      'set gpgcheck 1',
+      "set gpgkey file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+    ],
+    lens    => 'Yum.lns',
+    incl    => '/etc/yum.repos.d/CentOS-Base.repo',
   }
 
 }

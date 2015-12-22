@@ -16,11 +16,4 @@ shared_examples_for 'repo_centos::compat::end' do
   ].each do |r|
     it { should contain_file("/etc/yum.repos.d/#{r}.repo").with_ensure('absent') }
   end
-
-  context 'when ensure_source => present' do
-    let(:params) {{ :ensure_source => 'present' }}
-
-    it { should_not contain_file('/etc/yum.repos.d/centos-base-source.repo') }
-    it { should_not contain_file('/etc/yum.repos.d/centos-updates-source.repo') }
-  end
 end

@@ -14,24 +14,21 @@ describe 'repo_centos class' do
 
   context '4.x' do
     it 'should run successfully' do
-      fix_pp =<<-EOS
-        exec { 'reinstall centos-release':
-          path    => '/usr/bin:/bin:/usr/sbin:/sbin',
-          command => 'yum -y reinstall centos-release ; [ -f /etc/yum.repos.d/CentOS-Base.repo ] || yum -y update centos-release',
-          creates => '/etc/yum.repos.d/CentOS-Base.repo',
-        }
-      EOS
       pp =<<-EOS
         package { 'httpd': ensure => present }
         class { 'repo_centos': attempt_compatibility_mode => true }
       EOS
 
       proj_root = File.expand_path(File.join(File.dirname(__FILE__), '../..'))
-      apply_manifest(fix_pp, :catch_failures => true)
-      apply_manifest(fix_pp, :catch_changes => true)
-      puppet_module_install(:source => proj_root, :module_name => 'repo_centos', :target_module_path => '/etc/puppetlabs/code/environments/production/modules')
+      puppet_module_install(:source => proj_root, :module_name => 'repo_centos', :target_module_path => '/etc/puppet/modules')
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
+    end
+
+    # Ensure prefetched repositories are not written back to disk
+    describe command('ls -la /etc/yum.repos.d/') do
+      its(:stdout) { should_not match /centos/ }
+      its(:stdout) { should_not match /base/ }
     end
 
     it_behaves_like 'repo_centos-default'

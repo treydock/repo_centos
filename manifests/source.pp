@@ -11,24 +11,25 @@ class repo_centos::source {
   }
 
   if $repo_centos::ensure_source == 'present' {
-    yumrepo { 'centos-base-source':
-      baseurl  => "${repo_centos::source_repourl}/\$releasever/os/Source/",
-      descr    => 'CentOS-$releasever - Base Sources',
-      enabled  => $enabled,
-      gpgcheck => '1',
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+    augeas { 'centos-source':
+      context => '/files/etc/yum.repos.d/CentOS-source.repo',
+      changes => [
+        "set centos-base-source/name 'CentOS-\$releasever - Base Sources'",
+        "set centos-base-source/baseurl '${repo_centos::source_repourl}/\$releasever/os/Source/'",
+        "set centos-base-source/enabled ${enabled}",
+        'set centos-base-source/gpgcheck 1',
+        "set centos-base-source/gpgkey file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+        "set centos-updates-source/name 'CentOS-\$releasever - Updates Sources'",
+        "set centos-updates-source/baseurl '${repo_centos::source_repourl}/\$releasever/updates/Source/'",
+        "set centos-updates-source/enabled ${enabled}",
+        'set centos-updates-source/gpgcheck 1',
+        "set centos-updates-source/gpgkey file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+      ],
+      lens    => 'Yum.lns',
+      incl    => '/etc/yum.repos.d/CentOS-source.repo',
     }
-
-    yumrepo { 'centos-updates-source':
-      baseurl  => "${repo_centos::source_repourl}/\$releasever/updates/Source/",
-      descr    => 'CentOS-$releasever - Updates Sources',
-      enabled  => $enabled,
-      gpgcheck => '1',
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-    }
-  } elsif $repo_centos::ensure_source == 'absent' and $repo_centos::_support_ensure {
-    yumrepo { 'centos-base-source': ensure => 'absent' }
-    yumrepo { 'centos-updates-source': ensure => 'absent' }
+  } elsif $repo_centos::ensure_source == 'absent' {
+    file { '/etc/yum.repos.d/CentOS-source.repo': ensure => 'absent' }
   }
 
 }

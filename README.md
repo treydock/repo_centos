@@ -35,22 +35,7 @@ Default states for each operating system of the repositories managed by this mod
 
 ## Backwards Compatibility
 
-The `4.x` release of this module drastically changes the behavior of this module from previous releases.  The module now attempts to manage the repo files shipped with CentOS and as such extra steps must be taken to ensure a smooth transition from a release prior to `4.x`.  Two things must be done.
-
-1) The original repo files must be re-installed.  Previous versions of this module removed the files.
-2) This module applied with the `attempt_compatibility_mode` parameter set to `true`
-
-Step #1 can not be done during the same Puppet run as #2.  Something like this can be done for #1:
-
-```
-exec { 'reinstall centos-release':
-  path    => '/usr/bin:/bin:/usr/sbin:/sbin',
-  command => 'yum -y reinstall centos-release ; [ -f /etc/yum.repos.d/CentOS-Base.repo ] || yum -y update centos-release',
-  creates => '/etc/yum.repos.d/CentOS-Base.repo',
-}
-```
-
-Tools like mcollective will allow for this exec to be applied to all systems before step #2 is performed.
+The `4.x` release of this module drastically changes the behavior of this module from previous releases.  The module now attempts to manage the repo files shipped with CentOS and as such extra steps must be taken to ensure a smooth transition from a release prior to `4.x`.  The transition can be automated if `attempt_compatibility_mode` is set to `true`.  When `attempt_compatibility_mode` is `true` this module will re-install (or update) the centos-release package, remove previously added centos-* repositories, then modify the stock repo files based on parameter values.
 
 ## Usage
 

@@ -20,24 +20,24 @@ describe 'repo_centos' do
       it { should create_class('repo_centos') }
       it { should contain_class('repo_centos::params') }
 
-      it { should contain_anchor('repo_centos::start').that_comes_before('Class[repo_centos::base]') }
-      it { should contain_class('repo_centos::base').that_comes_before('Class[repo_centos::contrib]') }
-      it { should contain_class('repo_centos::contrib').that_comes_before('Class[repo_centos::cr]') }
-      it { should contain_class('repo_centos::cr').that_comes_before('Class[repo_centos::extras]') }
-      it { should contain_class('repo_centos::extras').that_comes_before('Class[repo_centos::plus]') }
-      it { should contain_class('repo_centos::plus').that_comes_before('Class[repo_centos::scl]') }
-      it { should contain_class('repo_centos::scl').that_comes_before('Class[repo_centos::updates]') }
-      it { should contain_class('repo_centos::updates').that_comes_before('Class[repo_centos::fasttrack]') }
-      it { should contain_class('repo_centos::fasttrack').that_comes_before('Class[repo_centos::source]') }
-      it { should contain_class('repo_centos::source').that_comes_before('Class[repo_centos::debug]') }
-      it { should contain_class('repo_centos::debug').that_comes_before('Anchor[repo_centos::end]') }
-      it { should contain_anchor('repo_centos::end').that_comes_before('Package[httpd]') }
+      it { should contain_stage('repo_centos').that_comes_before('Stage[main]') }
+      it { should contain_class('repo_centos::base').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::contrib').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::cr').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::extras').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::plus').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::scl').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::updates').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::fasttrack').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::source').with_stage('repo_centos') }
+      it { should contain_class('repo_centos::debug').with_stage('repo_centos') }
 
+      it { should_not contain_class('repo_centos::compat::start') }
       it { should_not contain_class('repo_centos::compat::end') }
 
       context 'when attempt_compatibility_mode => true' do
         let(:params) {{ :attempt_compatibility_mode => true }}
-        it { should contain_stage('repo_centos::compat::start').with_before('Stage[main]') }
+        it { should contain_stage('repo_centos::compat::start').with_before('Stage[repo_centos]') }
         it { should contain_stage('repo_centos::compat::end') }
         it { should contain_stage('main').that_comes_before('Stage[repo_centos::compat::end]') }
         it { should contain_class('repo_centos::compat::start').with_stage('repo_centos::compat::start') }

@@ -64,42 +64,27 @@ class repo_centos (
   validate_bool($attempt_compatibility_mode)
 
   if $::operatingsystem == 'CentOS' {
-    # Puppet >= 3.5.0 supports yumrepo ensure and target parameter
+    # Puppet >= 3.5.0 supports yumrepo ensure parameter
     if versioncmp($::puppetversion, '3.5.0') >= 0 {
       $_support_ensure = true
-      $_support_target = true
     } else {
       $_support_ensure = false
-      $_support_target = false
     }
 
-    include repo_centos::base
-    include repo_centos::contrib
-    include repo_centos::cr
-    include repo_centos::extras
-    include repo_centos::plus
-    include repo_centos::scl
-    include repo_centos::updates
-    include repo_centos::fasttrack
-    include repo_centos::source
-    include repo_centos::debug
-
-    anchor { 'repo_centos::start': }->
-    Class['repo_centos::base']->
-    Class['repo_centos::contrib']->
-    Class['repo_centos::cr']->
-    Class['repo_centos::extras']->
-    Class['repo_centos::plus']->
-    Class['repo_centos::scl']->
-    Class['repo_centos::updates']->
-    Class['repo_centos::fasttrack']->
-    Class['repo_centos::source']->
-    Class['repo_centos::debug']->
-    anchor { 'repo_centos::end': }->
-    Package<| |>
+    stage { 'repo_centos': before => Stage['main'] }
+    class { 'repo_centos::base': stage => 'repo_centos' }
+    class { 'repo_centos::contrib': stage => 'repo_centos' }
+    class { 'repo_centos::cr': stage => 'repo_centos' }
+    class { 'repo_centos::extras': stage => 'repo_centos' }
+    class { 'repo_centos::plus': stage => 'repo_centos' }
+    class { 'repo_centos::scl': stage => 'repo_centos' }
+    class { 'repo_centos::updates': stage => 'repo_centos' }
+    class { 'repo_centos::fasttrack': stage => 'repo_centos' }
+    class { 'repo_centos::source': stage => 'repo_centos' }
+    class { 'repo_centos::debug': stage => 'repo_centos' }
 
     if $attempt_compatibility_mode {
-      stage { 'repo_centos::compat::start': before => Stage['main'] }
+      stage { 'repo_centos::compat::start': before => Stage['repo_centos'] }
       stage { 'repo_centos::compat::end': }
       Stage['main'] -> Stage['repo_centos::compat::end']
       class { 'repo_centos::compat::start': stage => 'repo_centos::compat::start' }

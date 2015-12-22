@@ -11,21 +11,25 @@ class repo_centos::contrib {
       $enabled = '0'
     }
     if $repo_centos::enable_mirrorlist {
-      $mirrorlist = "${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=contrib${repo_centos::mirrorlist_tail}"
-      $baseurl    = 'absent'
+      $mirrorlist = "set mirrorlist '${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=contrib${repo_centos::mirrorlist_tail}'"
+      $baseurl    = 'rm baseurl'
     } else {
-      $mirrorlist = 'absent'
-      $baseurl    = "${repo_centos::repourl}/\$releasever/contrib/\$basearch/"
+      $mirrorlist = 'rm mirrorlist'
+      $baseurl    = "set baseurl '${repo_centos::repourl}/\$releasever/contrib/\$basearch/'"
     }
 
-    yumrepo { 'contrib':
-      baseurl    => $baseurl,
-      mirrorlist => $mirrorlist,
-      descr      => 'CentOS-$releasever - Contrib',
-      enabled    => $enabled,
-      gpgcheck   => '1',
-      gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-      #target     => '/etc/yum.repos.d/CentOS-Base.repo',
+    augeas { 'centos-contrib':
+      context => '/files/etc/yum.repos.d/CentOS-Base.repo/contrib',
+      changes => [
+        "set name 'CentOS-\$releasever - Contrib'",
+        $mirrorlist,
+        $baseurl,
+        "set enabled ${enabled}",
+        'set gpgcheck 1',
+        "set gpgkey file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+      ],
+      lens    => 'Yum.lns',
+      incl    => '/etc/yum.repos.d/CentOS-Base.repo',
     }
   }
 

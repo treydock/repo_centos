@@ -13,6 +13,9 @@ This release is a major refactor of this module to use the repo files shipped wi
 * The SCL repo on CentOS 6 is no longer present by default
 * The CR repo is only present by default for CentOS 7
 * Remove 'ensure' parameters for all repos except cr, scl and source
+* Do not set 'enable' parameters for base, extras and updates if they are enabled (maintain CentOS defaults)
+* Use augeas to define all repos
+* Use stages to ensure CentOS repositories come before other resources
 * Module requires presence of operatingsystemmajrelease fact
 * Add compat classes to attempt a "smooth" upgrade from 3.x to 4.x of this module
 

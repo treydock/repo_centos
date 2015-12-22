@@ -10,21 +10,25 @@ class repo_centos::fasttrack {
     $enabled = '0'
   }
   if $repo_centos::enable_mirrorlist {
-    $mirrorlist = "${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=fasttrack${repo_centos::mirrorlist_tail}"
-    $baseurl    = 'absent'
+    $mirrorlist = "set mirrorlist '${repo_centos::mirrorlisturl}/?release=\$releasever&arch=\$basearch&repo=fasttrack${repo_centos::mirrorlist_tail}'"
+    $baseurl    = 'rm baseurl'
   } else {
-    $mirrorlist = 'absent'
-    $baseurl    = "${repo_centos::repourl}/\$releasever/fasttrack/\$basearch/"
+    $mirrorlist = 'rm mirrorlist'
+    $baseurl    = "set baseurl '${repo_centos::repourl}/\$releasever/fasttrack/\$basearch/'"
   }
 
-  yumrepo { 'fasttrack':
-    baseurl    => $baseurl,
-    mirrorlist => $mirrorlist,
-    descr      => 'CentOS-$releasever - fasttrack',
-    enabled    => $enabled,
-    gpgcheck   => '1',
-    gpgkey     => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
-    #target     => '/etc/yum.repos.d/CentOS-fasttrack.repo',
+  augeas { 'centos-fasttrack':
+    context => '/files/etc/yum.repos.d/CentOS-fasttrack.repo/fasttrack',
+    changes => [
+      "set name 'CentOS-${::operatingsystemmajrelease} - fasttrack'",
+      $mirrorlist,
+      $baseurl,
+      "set enabled ${enabled}",
+      'set gpgcheck 1',
+      "set gpgkey file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}",
+    ],
+    lens    => 'Yum.lns',
+    incl    => '/etc/yum.repos.d/CentOS-fasttrack.repo',
   }
 
 }

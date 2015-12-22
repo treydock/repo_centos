@@ -10,13 +10,17 @@ class repo_centos::debug {
     $enabled = '0'
   }
 
-  yumrepo { 'base-debuginfo':
-    baseurl  => "${repo_centos::debug_repourl}/${::operatingsystemmajrelease}/\$basearch/",
-    descr    => "CentOS-${::operatingsystemmajrelease} - Debuginfo",
-    enabled  => $enabled,
-    gpgcheck => '1',
-    gpgkey   => $repo_centos::debuginfo_gpgkey,
-    #target   => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
+  augeas { 'centos-base-debuginfo':
+    context => '/files/etc/yum.repos.d/CentOS-Debuginfo.repo/base-debuginfo',
+    changes => [
+      "set name 'CentOS-${::operatingsystemmajrelease} - Debuginfo'",
+      "set baseurl '${repo_centos::debug_repourl}/${::operatingsystemmajrelease}/\$basearch/'",
+      "set enabled ${enabled}",
+      'set gpgcheck 1',
+      "set gpgkey ${repo_centos::debuginfo_gpgkey}",
+    ],
+    lens    => 'Yum.lns',
+    incl    => '/etc/yum.repos.d/CentOS-Debuginfo.repo',
   }
 
 }
