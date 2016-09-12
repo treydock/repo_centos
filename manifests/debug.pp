@@ -18,10 +18,10 @@ class repo_centos::debug {
 
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-debug' |> { ensure => $repo_centos::ensure_debug }
+    Yumrepo <| title == 'CentOS-Debug' |> { ensure => $repo_centos::ensure_debug }
   }
 
-  yumrepo { 'centos-debug':
+  yumrepo { 'CentOS-Debug':
     baseurl  => "${repo_centos::debug_repourl}/${repo_centos::releasever}/\$basearch/",
     descr    => "CentOS-${repo_centos::releasever} - Debuginfo",
     enabled  => $enabled,

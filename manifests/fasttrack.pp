@@ -27,10 +27,10 @@ class repo_centos::fasttrack {
 
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-fasttrack' |> { ensure => $repo_centos::ensure_fasttrack }
+    Yumrepo <| title == 'CentOS-fasttrack' |> { ensure => $repo_centos::ensure_fasttrack }
   }
 
-  yumrepo { 'centos-fasttrack':
+  yumrepo { 'CentOS-fasttrack':
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - fasttrack',
