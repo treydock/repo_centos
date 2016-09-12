@@ -26,6 +26,7 @@ class repo_centos::updates {
 
   yumrepo { 'CentOS-Updates':
     name       => 'updates',
+    target     => 'CentOS-Base.repo',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Updates',
