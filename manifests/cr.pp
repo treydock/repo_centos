@@ -23,6 +23,7 @@ class repo_centos::cr {
   }
 
   yumrepo { 'CentOS-CR':
+    name     => 'cr',
     baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
     descr    => 'CentOS-$releasever - CR',
     enabled  => $enabled,

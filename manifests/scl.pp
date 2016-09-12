@@ -30,6 +30,7 @@ class repo_centos::scl {
     }
 
     yumrepo { 'CentOS-SCL':
+      name     => 'scl',
       baseurl  => "${repo_centos::repourl}/\$releasever/SCL/\$basearch/",
       descr    => 'CentOS-$releasever - SCL',
       enabled  => $enabled,

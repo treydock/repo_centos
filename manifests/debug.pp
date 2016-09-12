@@ -22,6 +22,7 @@ class repo_centos::debug {
   }
 
   yumrepo { 'CentOS-Debug':
+    name     => 'debug',
     baseurl  => "${repo_centos::debug_repourl}/${repo_centos::releasever}/\$basearch/",
     descr    => "CentOS-${repo_centos::releasever} - Debuginfo",
     enabled  => $enabled,

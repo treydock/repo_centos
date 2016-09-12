@@ -31,6 +31,7 @@ class repo_centos::plus {
   }
 
   yumrepo { 'CentOS-Plus':
+    name       => 'centosplus',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Plus',

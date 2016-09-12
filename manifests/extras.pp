@@ -31,6 +31,7 @@ class repo_centos::extras {
   }
 
   yumrepo { 'CentOS-Extras':
+    name       => 'extras',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Extras',

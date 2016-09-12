@@ -31,6 +31,7 @@ class repo_centos::fasttrack {
   }
 
   yumrepo { 'CentOS-fasttrack':
+    name       => 'fasttrack',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - fasttrack',

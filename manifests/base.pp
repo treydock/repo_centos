@@ -25,6 +25,7 @@ class repo_centos::base {
   }
 
   yumrepo { 'CentOS-Base':
+    name       => 'base',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Base',
