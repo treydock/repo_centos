@@ -32,7 +32,7 @@ class repo_centos::extras {
 
   yumrepo { 'CentOS-Extras':
     name       => 'extras',
-    target     => 'CentOS-Base.repo',
+    target     => '/etc/yum.repos.d/CentOS-Base.repo',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Extras',

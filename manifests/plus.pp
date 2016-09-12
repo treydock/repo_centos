@@ -32,7 +32,7 @@ class repo_centos::plus {
 
   yumrepo { 'CentOS-Plus':
     name       => 'centosplus',
-    target     => 'CentOS-Base.repo',
+    target     => '/etc/yum.repos.d/CentOS-Base.repo',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Plus',

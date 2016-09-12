@@ -17,7 +17,7 @@ class repo_centos::source {
 
   yumrepo { 'CentOS-Base-source':
     name     => 'base-source',
-    target   => 'CentOS-Sources.repo',
+    target   => '/etc/yum.repos.d/CentOS-Sources.repo',
     baseurl  => "${repo_centos::source_repourl}/\$releasever/os/Source/",
     descr    => 'CentOS-$releasever - Base Sources',
     enabled  => $enabled,
@@ -27,7 +27,7 @@ class repo_centos::source {
 
   yumrepo { 'CentOS-Updates-source':
     name     => 'updates-source',
-    target   => 'CentOS-Sources.repo',
+    target   => '/etc/yum.repos.d/CentOS-Sources.repo',
     baseurl  => "${repo_centos::source_repourl}/\$releasever/updates/Source/",
     descr    => 'CentOS-$releasever - Updates Sources',
     enabled  => $enabled,
