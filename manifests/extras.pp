@@ -27,10 +27,12 @@ class repo_centos::extras {
 
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-extras' |> { ensure => $repo_centos::ensure_extras }
+    Yumrepo <| title == 'CentOS-Extras' |> { ensure => $repo_centos::ensure_extras }
   }
 
-  yumrepo { 'centos-extras':
+  yumrepo { 'CentOS-Extras':
+    name       => 'extras',
+    target     => '/etc/yum.repos.d/CentOS-Base.repo',
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Extras',

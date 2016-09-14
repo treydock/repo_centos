@@ -22,10 +22,10 @@ class repo_centos::contrib {
 
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-contrib' |> { ensure => $repo_centos::ensure_contrib }
+    Yumrepo <| title == 'CentOS-Contrib' |> { ensure => $repo_centos::ensure_contrib }
   }
 
-  yumrepo { 'centos-contrib':
+  yumrepo { 'CentOS-Contrib':
     baseurl    => $baseurl,
     mirrorlist => $mirrorlist,
     descr      => 'CentOS-$releasever - Contrib',

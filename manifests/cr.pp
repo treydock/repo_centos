@@ -19,10 +19,12 @@ class repo_centos::cr {
 
   # Yumrepo ensure only in Puppet >= 3.5.0
   if versioncmp($::puppetversion, '3.5.0') >= 0 {
-    Yumrepo <| title == 'centos-cr' |> { ensure => $repo_centos::ensure_cr }
+    Yumrepo <| title == 'CentOS-CR' |> { ensure => $repo_centos::ensure_cr }
   }
 
-  yumrepo { 'centos-cr':
+  yumrepo { 'CentOS-CR':
+    name     => 'cr',
+    target   => '/etc/yum.repos.d/CentOS-CR.repo',
     baseurl  => "${repo_centos::repourl}/\$releasever/cr/\$basearch/",
     descr    => 'CentOS-$releasever - CR',
     enabled  => $enabled,
