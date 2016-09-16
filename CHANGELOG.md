@@ -2,7 +2,7 @@
 
 Release notes for the treydock-repo_centos module.
 
-#### 4.0.0 - TBD
+#### 4.0.0 - 2016/09/16
 
 This release is a major refactor of this module to use the repo files shipped with CentOS.
 
