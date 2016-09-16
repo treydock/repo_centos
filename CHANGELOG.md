@@ -18,6 +18,7 @@ This release is a major refactor of this module to use the repo files shipped wi
 * Use stages to ensure CentOS repositories come before other resources
 * Module requires presence of operatingsystemmajrelease fact
 * Add compat classes to attempt a "smooth" upgrade from 3.x to 4.x of this module
+* Updates to travis-ci test matrix
 
 ------------------------------------------
 
