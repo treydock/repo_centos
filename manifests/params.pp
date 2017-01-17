@@ -33,6 +33,7 @@ class repo_centos::params {
   $ensure_fasttrack            = 'present'
   $ensure_source               = 'present'
   $ensure_debug                = 'present'
+  $stagename                   = 'main'
 
   case $releasever {
     '7': {
