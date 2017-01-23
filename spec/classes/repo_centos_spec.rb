@@ -63,9 +63,10 @@ describe 'repo_centos' do
   context 'when operatingsystem => "Fedora"' do
     let :facts do
       {
-        :operatingsystem        => 'Fedora',
-        :os_maj_version         => '20',
-        :architecture           => 'x86_64',
+        :operatingsystem           => 'Fedora',
+        :os_maj_version            => '20',
+        :operatingsystemmajrelease => '20',
+        :architecture              => 'x86_64',
       }
     end
 

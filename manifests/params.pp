@@ -41,6 +41,12 @@ class repo_centos::params {
       $mirrorlist_tail         = ''
       $debuginfo_gpgkey        = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${::operatingsystemmajrelease}"
     }
-    default: { }
+    default: {
+      $support_contrib         = undef
+      $support_scl             = undef
+      $ensure_cr               = undef
+      $mirrorlist_tail         = undef
+      $debuginfo_gpgkey        = undef
+    }
   }
 }
