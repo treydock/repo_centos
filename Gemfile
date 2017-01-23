@@ -4,7 +4,7 @@ group :development, :test do
   if RUBY_VERSION.start_with? '1.8'
     gem 'rake', '< 11',           :require => false
   else
-    gem 'rake',                   :require => false
+    gem 'rake', '< 12',           :require => false
   end
   gem 'rspec', '~>3.1.0',         :require => false
   gem 'rspec-puppet', '~>2.x',    :require => false
