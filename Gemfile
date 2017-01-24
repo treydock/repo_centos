@@ -17,7 +17,7 @@ group :development, :test do
 end
 
 group :system_tests do
-  gem 'beaker',                   :require => false
+  gem 'beaker', '~>2.x',          :require => false
   gem 'beaker-rspec',             :require => false
   gem 'serverspec',               :require => false
   gem 'beaker_spec_helper',       :require => false
@@ -29,4 +29,4 @@ else
   gem 'facter', :require => false
 end
 
-gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 3.8.0', :require => false
+gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 4.0', :require => false
