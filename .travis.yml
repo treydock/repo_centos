@@ -53,5 +53,9 @@ matrix:
       env: BEAKER_set="centos-7-x64-docker"
       bundler_args:
       script: sudo service docker restart ; sleep 10 ; bundle exec rake beaker_compat
+  allow_failures:
+    - rvm: 2.1.6
+      env: BEAKER_set="centos-5-x64-docker"
+      script: sudo service docker restart ; sleep 10 ; bundle exec rake beaker_compat
 notifications:
   email: false
